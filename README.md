@@ -12,12 +12,6 @@ This framework provides tools to validate connectivity between Gaudi devices bas
 gaudi-connection/
 ├── bin/                    # Executable scripts
 │   └── gaudi-connection-test  # Main executable
-├── data/                   # Connectivity CSV files
-│   ├── connectivity_HLS2.csv
-│   ├── connectivity_HLS2PCIE.csv
-│   ├── connectivity_HLS3.csv
-│   ├── connectivity_HLS3PCIE.csv
-│   └── ...
 ├── gaudi_connect/          # Main package
 │   ├── __init__.py
 │   ├── connection_test_main.py  # Main testing logic
