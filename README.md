@@ -61,11 +61,6 @@ Test HLS2 connectivity:
 ./bin/gaudi-connection-test -t HLS2 -v
 ```
 
-Test with custom connectivity file:
-```bash
-./bin/gaudi-connection-test -f data/custom_connectivity.csv -v
-```
-
 Run tests in parallel:
 ```bash
 ./bin/gaudi-connection-test -p -t HLS3
