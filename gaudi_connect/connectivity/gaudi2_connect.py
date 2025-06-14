@@ -91,74 +91,9 @@ def get_module_connections(connections: List[Dict[str, int]], module_id: int = N
     
     return modules
 
-def print_summary(connections: List[Dict[str, int]], module_id: int = None):
-    """Print a summary of connections."""
-    if module_id is not None:
-        filtered = [c for c in connections if 
-                   c["source_module_id"] == module_id or 
-                   c["destination_module_id"] == module_id]
-        print(f"\nGaudi2 Connections for Module {module_id}:")
-        connections = filtered
-    else:
-        print("\nGaudi2 Connections:")
-    
-    if not connections:
-        print("No connections found.")
-        return
-    
-    print("=" * 75)
-    print(f"{'Source Module':<15} {'Source Port':<15} {'Destination Module':<20} {'Destination Port':<15}")
-    print("-" * 75)
-    
-    for conn in connections:
-        print(f"{conn['source_module_id']:<15} {conn['source_port']:<15} "
-              f"{conn['destination_module_id']:<20} {conn['destination_port']:<15}")
-    
-    print("=" * 75)
-    print(f"Total connections: {len(connections)}")
-
-def print_detailed_module_info(connections: List[Dict[str, int]], module_id: int):
-    """Print detailed information for a specific module."""
-    modules = get_module_connections(connections, module_id)
-    
-    if module_id not in modules:
-        print(f"No connections found for module {module_id}.")
-        return
-    
-    module = modules[module_id]
-    
-    print(f"\nGaudi2 Module {module_id} Connection Details:")
-    print("=" * 75)
-    
-    # Print outgoing connections
-    print(f"\nOutgoing Connections (Module {module_id} → Other Modules):")
-    print(f"{'Destination Module':<20} {'Source Port':<15} {'Destination Port':<15}")
-    print("-" * 75)
-    
-    if not module["outgoing"]:
-        print("No outgoing connections.")
-    else:
-        for dst_module, src_port, dst_port in sorted(module["outgoing"]):
-            print(f"{dst_module:<20} {src_port:<15} {dst_port:<15}")
-    
-    # Print incoming connections
-    print(f"\nIncoming Connections (Other Modules → Module {module_id}):")
-    print(f"{'Source Module':<20} {'Destination Port':<15} {'Source Port':<15}")
-    print("-" * 75)
-    
-    if not module["incoming"]:
-        print("No incoming connections.")
-    else:
-        for src_module, dst_port, src_port in sorted(module["incoming"]):
-            print(f"{src_module:<20} {dst_port:<15} {src_port:<15}")
-
 def main():
     # Default path for the connectivity file
     default_path = "/opt/habanalabs/perf-test/scale_up_tool/internal_data/connectivity_HLS2.csv"
-    fallback_path = "/workspace/py/test_connectivity.csv"
-    
-    if not os.path.exists(default_path) and os.path.exists(fallback_path):
-        default_path = fallback_path
     
     parser = argparse.ArgumentParser(description="Gaudi2 Connectivity Information Tool")
     parser.add_argument("-f", "--file", default=default_path,
@@ -179,17 +114,27 @@ def main():
         print("No connections found in the specified file.")
         return 1
     
-    # Output based on arguments
+    # Output in JSON if requested
     if args.json:
-        if args.module is not None and args.detailed:
-            modules = get_module_connections(connections, args.module)
-            print(json.dumps(modules, indent=2))
-        else:
-            print(json.dumps(connections, indent=2))
-    elif args.detailed and args.module is not None:
-        print_detailed_module_info(connections, args.module)
+        print(json.dumps(connections, indent=2))
     else:
-        print_summary(connections, args.module)
+        # Print a simple summary
+        if args.module is not None:
+            connections = [c for c in connections if 
+                        c["source_module_id"] == args.module or 
+                        c["destination_module_id"] == args.module]
+            print(f"Connections for module {args.module}:")
+        else:
+            print("All connections:")
+            
+        print(f"{'Source Module':<15} {'Source Port':<15} {'Destination Module':<15} {'Destination Port':<15}")
+        print("-" * 60)
+        
+        for conn in connections:
+            print(f"{conn['source_module_id']:<15} {conn['source_port']:<15} "
+                f"{conn['destination_module_id']:<15} {conn['destination_port']:<15}")
+        
+        print(f"Total: {len(connections)} connections")
     
     return 0
 
