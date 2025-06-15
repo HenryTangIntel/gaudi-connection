@@ -16,13 +16,13 @@ import random
 from typing import Dict, List, Tuple, Any, Optional
 import concurrent.futures
 
-from gaudi_connect.devices.GaudiDevices import GaudiDevices
+from gaudi_connect.devices.GaudiDevices import GaudiDevices, GaudiDevice
 from gaudi_connect.devices.InfinibandDevices import InfinibandDevices
 from gaudi_connect.connectivity.GaudiRouting import GaudiRouting
 
 def get_device_by_module_id(devices: Dict[str, Dict[str, Any]], module_id: int) -> Optional[Dict[str, Any]]:
     """
-    Find a device by its module ID.
+    Find a device by its module ID (legacy function).
     
     Args:
         devices: Dictionary of devices keyed by bus ID
@@ -40,20 +40,36 @@ def get_device_by_module_id(devices: Dict[str, Dict[str, Any]], module_id: int) 
     return None
 
 
+def get_gaudi_device_by_module_id(gaudi_devices_obj: GaudiDevices, module_id: int, include_infiniband: bool = True) -> Optional['GaudiDevice']:
+    """
+    Find a GaudiDevice object by its module ID.
+    
+    Args:
+        gaudi_devices_obj: GaudiDevices instance
+        module_id: Module ID to search for
+        include_infiniband: Whether to include InfiniBand information
+        
+    Returns:
+        Optional[GaudiDevice]: Device object if found, None otherwise
+    """
+    return gaudi_devices_obj.get_device_object_by_module_id(module_id, include_infiniband=include_infiniband)
 
 
 
-def connect_devices(source_device: Dict[str, Any], source_port: int,
+
+
+def connect_devices_dict(source_device: Dict[str, Any], source_port: int,
                   dest_device: Dict[str, Any], dest_port: int,
                   ib_devices: Dict[str, Dict[str, Any]] = None,
                   simulate: bool = True) -> Tuple[bool, str]:
     """
-    Connect two Gaudi devices, checking port status first.
+    Connect two Gaudi devices using dictionary information, checking port status first.
+    Legacy function that works with device dictionaries.
     
     Args:
-        source_device: Source device information
+        source_device: Source device information as dictionary
         source_port: Port on the source device
-        dest_device: Destination device information
+        dest_device: Destination device information as dictionary
         dest_port: Port on the destination device
         ib_devices: Dictionary of InfiniBand devices with port information
         simulate: Whether to simulate connection (True) or use real API (False)
@@ -101,6 +117,98 @@ def connect_devices(source_device: Dict[str, Any], source_port: int,
             
         # Check destination port status
         dst_active, dst_status = ib_device.check_port_status(dst_bus_id, dest_port, ib_devices)
+        if not dst_active:
+            return False, f"Destination port check failed: {dst_status}"
+            
+        print(f"  Source port status: {src_status}")
+        print(f"  Destination port status: {dst_status}")
+
+
+def connect_devices(source_device: Dict[str, Any], source_port: int,
+                  dest_device: Dict[str, Any], dest_port: int,
+                  ib_devices: Dict[str, Dict[str, Any]] = None,
+                  simulate: bool = True) -> Tuple[bool, str]:
+    """
+    Connect two Gaudi devices, checking port status first.
+    This function handles both GaudiDevice objects and dictionaries.
+    
+    Args:
+        source_device: Source device information (dict or GaudiDevice)
+        source_port: Port on the source device
+        dest_device: Destination device information (dict or GaudiDevice)
+        dest_port: Port on the destination device
+        ib_devices: Dictionary of InfiniBand devices with port information
+        simulate: Whether to simulate connection (True) or use real API (False)
+        
+    Returns:
+        Tuple of (success, message)
+    """
+    # Convert GaudiDevice objects to dictionaries if needed
+    if isinstance(source_device, GaudiDevice):
+        src_module_id = source_device.module_id
+        src_bus_id = source_device.bus_id
+        src_vendor_id = source_device.vendor_id
+        # Check port status directly through GaudiDevice
+        src_active = source_device.is_port_active(source_port)
+        src_status = source_device.get_port_status(source_port)
+    else:  # Dictionary
+        src_module_id = source_device.get('module_id')
+        src_bus_id = source_device.get('bus_id')
+        src_vendor_id = source_device.get('vendor_id', 'unknown')
+        if src_vendor_id is None:
+            src_vendor_id = 'unknown'
+        src_active = None  # Will check later if needed
+        src_status = None
+        
+    if isinstance(dest_device, GaudiDevice):
+        dst_module_id = dest_device.module_id
+        dst_bus_id = dest_device.bus_id
+        dst_vendor_id = dest_device.vendor_id
+        # Check port status directly through GaudiDevice
+        dst_active = dest_device.is_port_active(dest_port)
+        dst_status = dest_device.get_port_status(dest_port)
+    else:  # Dictionary
+        dst_module_id = dest_device.get('module_id')
+        dst_bus_id = dest_device.get('bus_id')
+        dst_vendor_id = dest_device.get('vendor_id', 'unknown')
+        if dst_vendor_id is None:
+            dst_vendor_id = 'unknown'
+        dst_active = None  # Will check later if needed
+        dst_status = None
+    
+    # Ensure we're connecting different modules
+    if src_module_id == dst_module_id:
+        return False, f"Cannot connect same module to itself (Module ID: {src_module_id})"
+    
+    print(f"Connecting module {src_module_id}:{source_port} to module {dst_module_id}:{dest_port}")
+    print(f"  Bus IDs: {src_bus_id} -> {dst_bus_id}")
+    
+    # Validate vendor IDs
+    if src_vendor_id == 'unknown' or dst_vendor_id == 'unknown':
+        print(f"ERROR: Source or destination vendor_id is None or unknown. Source: {src_vendor_id}, Dest: {dst_vendor_id}")
+        return False, "Connection skipped: source or destination vendor_id is None or unknown."
+    
+    # Only test connection between Gaudi devices (vendor_id == '1da3')
+    if src_vendor_id != '1da3' or dst_vendor_id != '1da3':
+        print(f"Source vendor_id: {src_vendor_id}")
+        print(f"Dest vendor_id: {dst_vendor_id}")
+        return False, "Connection skipped: one or both devices are not Gaudi devices."
+    
+    # For dictionary-based devices, check port status if we have IB devices information
+    if ib_devices:
+        # If not already checked through GaudiDevice
+        if src_active is None:
+            # Create an InfinibandDevices instance to use its methods
+            ib_device = InfinibandDevices()
+            src_active, src_status = ib_device.check_port_status(src_bus_id, source_port, ib_devices)
+            
+        if dst_active is None:
+            ib_device = InfinibandDevices() if not 'ib_device' in locals() else ib_device
+            dst_active, dst_status = ib_device.check_port_status(dst_bus_id, dest_port, ib_devices)
+            
+        # Handle port status checks
+        if not src_active:
+            return False, f"Source port check failed: {src_status}"
         if not dst_active:
             return False, f"Destination port check failed: {dst_status}"
             
@@ -156,17 +264,19 @@ def test_connections(connections: List[Dict[str, int]],
                     parallel: bool = False, 
                     timeout: int = 30,
                     simulate: bool = True,
-                    check_ib_ports: bool = True) -> Dict[str, Any]:
+                    check_ib_ports: bool = True,
+                    use_device_objects: bool = True) -> Dict[str, Any]:
     """
     Test connections between Gaudi devices.
     
     Args:
         connections: List of connection dictionaries
-        devices: Dictionary of devices keyed by bus ID
+        devices: Dictionary of devices keyed by bus ID (used if use_device_objects is False)
         parallel: Whether to run tests in parallel
         timeout: Timeout in seconds for parallel execution
         simulate: Whether to simulate connections
         check_ib_ports: Whether to check InfiniBand port status before attempting connections
+        use_device_objects: Whether to use GaudiDevice objects (True) or device dictionaries (False)
         
     Returns:
         Dictionary with test results
@@ -187,6 +297,15 @@ def test_connections(connections: List[Dict[str, int]],
     if not valid_connections:
         print("No valid connections to test.")
         return results
+    
+    # Get GaudiDevice objects if using object mode
+    gaudi_devices_obj = None
+    device_objects = None
+    if use_device_objects:
+        print("Creating GaudiDevice objects with InfiniBand information...")
+        gaudi_devices_obj = GaudiDevices()  # Create a GaudiDevices instance
+        device_objects = gaudi_devices_obj.get_device_objects(include_infiniband=check_ib_ports)
+        print(f"Created {len(device_objects)} GaudiDevice objects")
     
     # Get InfiniBand device information if port checking is enabled
     ib_devices = None
@@ -230,8 +349,16 @@ def test_connections(connections: List[Dict[str, int]],
         dst_module_id = conn['destination_module_id']
         dst_port = conn['destination_port']
         
-        src_device = get_device_by_module_id(devices, src_module_id)
-        dst_device = get_device_by_module_id(devices, dst_module_id)
+        # Get devices either as GaudiDevice objects or dictionaries
+        if use_device_objects and gaudi_devices_obj is not None:
+            print(f"Looking for device objects with module IDs {src_module_id} and {dst_module_id}")
+            src_device = gaudi_devices_obj.get_device_object_by_module_id(src_module_id, include_infiniband=check_ib_ports)
+            dst_device = gaudi_devices_obj.get_device_object_by_module_id(dst_module_id, include_infiniband=check_ib_ports)
+            print(f"Found src device: {src_device is not None}, dst device: {dst_device is not None}")
+        else:
+            print(f"Using legacy device dictionaries for module IDs {src_module_id} and {dst_module_id}")
+            src_device = get_device_by_module_id(devices, src_module_id)
+            dst_device = get_device_by_module_id(devices, dst_module_id)
         
         if not src_device:
             return False, {
@@ -253,16 +380,20 @@ def test_connections(connections: List[Dict[str, int]],
         )
         
         if not success:
+            # Create error info with appropriate extraction of bus IDs based on object type
+            src_bus_id = src_device.bus_id if isinstance(src_device, GaudiDevice) else src_device.get('bus_id', 'unknown')
+            dst_bus_id = dst_device.bus_id if isinstance(dst_device, GaudiDevice) else dst_device.get('bus_id', 'unknown')
+            
             failure_info = {
                 "error": message,
                 "source": {
                     "module_id": src_module_id,
-                    "bus_id": src_device.get('bus_id', 'unknown'),
+                    "bus_id": src_bus_id,
                     "port": src_port
                 },
                 "destination": {
                     "module_id": dst_module_id,
-                    "bus_id": dst_device.get('bus_id', 'unknown'),
+                    "bus_id": dst_bus_id,
                     "port": dst_port
                 }
             }
@@ -419,6 +550,8 @@ def main():
                       help="Use real connection APIs instead of simulation")
     parser.add_argument("-n", "--no-port-check", action="store_true",
                       help="Skip checking InfiniBand port status")
+    parser.add_argument("--legacy", action="store_true",
+                      help="Use legacy dictionary-based device handling instead of GaudiDevice objects")
 
     args = parser.parse_args()
 
@@ -455,13 +588,15 @@ def main():
     print(f"Found {len(connections)} connections in the connectivity file.")
     
     # Test connections
+    print("Starting connection tests with device objects:", not args.legacy)
     results = test_connections(
         connections,
         devices,
         parallel=args.parallel,
         timeout=args.timeout,
         simulate=not args.real,
-        check_ib_ports=not args.no_port_check
+        check_ib_ports=not args.no_port_check,
+        use_device_objects=not args.legacy  # Use GaudiDevice objects by default, unless --legacy is specified
     )
     
     # Output results
@@ -475,4 +610,13 @@ def main():
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    print("Starting Gaudi Connection Test")
+    try:
+        exit_code = main()
+        print(f"Exiting with code {exit_code}")
+        sys.exit(exit_code)
+    except Exception as e:
+        import traceback
+        print(f"Error in main: {e}")
+        traceback.print_exc()
+        sys.exit(1)
