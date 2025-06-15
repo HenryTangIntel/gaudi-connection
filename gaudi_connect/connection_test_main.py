@@ -211,11 +211,18 @@ def test_connections(connections: List[Dict[str, int]],
         print("Retrieving InfiniBand device information for port status check...")
         try:
             # Get detailed port information
-            ib_devices = get_infiniband_devices(include_details=True)
-            if not ib_devices:
+            ib_result = get_infiniband_devices(include_details=True)
+            if not ib_result or (not ib_result.get('gaudi') and not ib_result.get('other')):
                 print("Warning: No InfiniBand devices found, port status check will be skipped.")
+                ib_devices = {}
             else:
-                print(f"Found {len(ib_devices)} InfiniBand devices.")
+                print(f"Found {len(ib_result.get('gaudi', []))} Gaudi devices and {len(ib_result.get('other', []))} other devices")
+                # Merge both lists into a dict keyed by pci_bus_id for compatibility
+                ib_devices = {}
+                for dev in ib_result.get('gaudi', []):
+                    ib_devices[dev['pci_bus_id']] = dev
+                for dev in ib_result.get('other', []):
+                    ib_devices[dev['pci_bus_id']] = dev
         except Exception as e:
             print(f"Warning: Error retrieving InfiniBand device information: {e}")
             print("Port status check will be skipped.")
@@ -402,12 +409,10 @@ def main():
     default_type = "HLS2"
     default_conn_path = connectivity_files.get(default_type)
     
-    # Command-line arguments
-    group = parser.add_mutually_exclusive_group()
-    group.add_argument("-f", "--file", default=default_conn_path,
-                      help="Path to the connectivity CSV file")
-    group.add_argument("-t", "--type", choices=["HLS2", "HLS2pcie", "HLS3", "HLS3pcie"],
-                      help="Predefined connectivity type to use")
+
+    # Command-line arguments (only allow type, remove file)
+    parser.add_argument("-t", "--type", required=True, choices=["HLS2", "HLS2pcie", "HLS3", "HLS3pcie"],
+                      help="Predefined connectivity type to use (required)")
     parser.add_argument("-p", "--parallel", action="store_true",
                       help="Run tests in parallel")
     parser.add_argument("--timeout", type=int, default=30,
@@ -420,25 +425,15 @@ def main():
                       help="Use real connection APIs instead of simulation")
     parser.add_argument("-n", "--no-port-check", action="store_true",
                       help="Skip checking InfiniBand port status")
-    
+
     args = parser.parse_args()
-    
-    # Determine the connectivity file path
-    connectivity_file = args.file
-    
-    # If type is specified, use the corresponding file
-    if args.type:
-        conn_type = args.type
-        connectivity_file = connectivity_files.get(conn_type)
-        
-        if not os.path.exists(connectivity_file):
-            print(f"Error: Connectivity file for type '{conn_type}' not found at:")
-            print(f"  - {connectivity_files.get(conn_type)}")
-            return 1
-    
-    # Check if connectivity file exists
-    if not os.path.exists(connectivity_file):
-        print(f"Error: Connectivity file '{connectivity_file}' not found.")
+
+    # Always use the predefined file for the selected type
+    conn_type = args.type
+    connectivity_file = connectivity_files.get(conn_type)
+    if not connectivity_file or not os.path.exists(connectivity_file):
+        print(f"Error: Connectivity file for type '{conn_type}' not found at:")
+        print(f"  - {connectivity_files.get(conn_type)}")
         return 1
     
     # Get device information

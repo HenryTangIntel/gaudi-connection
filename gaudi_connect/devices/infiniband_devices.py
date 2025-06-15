@@ -23,124 +23,111 @@ def get_infiniband_devices(include_details: bool = False) -> Dict[str, Any]:
     """
     # Base path for InfiniBand devices
     ib_path = "/sys/class/infiniband"
-    
-    # Check if the path exists
     if not os.path.exists(ib_path):
         print(f"InfiniBand path {ib_path} does not exist")
-        return {}
-    
-    result = {}
-    
-    # Find all InfiniBand devices
+        return {"gaudi": [], "other": []}
+
+    gaudi_devices = []
+    other_devices = []
+
     for device_path in glob.glob(os.path.join(ib_path, "*")):
         device_name = os.path.basename(device_path)
-        
-        # Extract PCI bus ID from the device path (symlink) for both detailed and simple modes
+        # Extract PCI bus ID from the device path (symlink) - use the LAST one in the path
         pci_bus_id = "Unknown"
+        pci_path = None
         try:
             real_path = os.path.realpath(device_path)
-            # The PCI path is typically in format: .../devices/pci0000:xx/0000:xx:xx.x/...
-            # We want to extract the 0000:xx:xx.x part which is the PCI bus ID
             pci_parts = [p for p in real_path.split('/') if p.startswith('0000:')]
             if pci_parts:
-                pci_bus_id = pci_parts[0]
-        except Exception as e:
-            # In case there's any issue resolving the symlink or parsing the path
+                pci_bus_id = pci_parts[-1]  # Use the last PCI bus ID
+                idx = real_path.rfind(pci_bus_id)
+                if idx != -1:
+                    pci_path = real_path[:idx + len(pci_bus_id)]
+        except Exception:
             pass
-            
-        if include_details:
-            device_info = {}
-            # Get device node GUID if available
-            node_guid_path = os.path.join(device_path, "node_guid")
-            if os.path.exists(node_guid_path):
-                with open(node_guid_path, 'r') as f:
-                    device_info["node_guid"] = f.read().strip()
-            
-            # Get device type if available
-            device_type_path = os.path.join(device_path, "node_type")
-            if os.path.exists(device_type_path):
-                with open(device_type_path, 'r') as f:
-                    device_info["type"] = f.read().strip()
-                    
-            # Add PCI bus ID
-            device_info["pci_bus_id"] = pci_bus_id
-            
-            ports_info = {}
-        else:
-            # For simple mode, store as a dict with pci_bus_id and active_ports
-            device_info = {
-                "pci_bus_id": pci_bus_id,
-                "active_ports": []
-            }
-        
-        # Find all ports for this device
+
+        # Identify vendor by walking up the directory tree to find a vendor file
+        vendor_id = None
+        if pci_path:
+            current_path = pci_path
+            for _ in range(10):  # limit to 10 parent traversals
+                vendor_file = os.path.join(current_path, 'vendor')
+                if os.path.exists(vendor_file):
+                    try:
+                        with open(vendor_file, 'r') as f:
+                            vendor_id = f.read().strip().lower()
+                            if vendor_id.startswith('0x'):
+                                vendor_id = vendor_id[2:]
+                        break
+                    except Exception:
+                        pass
+                parent = os.path.dirname(current_path)
+                if parent == current_path:
+                    break
+                current_path = parent
+        is_gaudi = vendor_id == '1da3'
+
+        # Gather port info
+        ports = []
         port_paths = glob.glob(os.path.join(device_path, "ports", "*"))
-        
         for port_path in port_paths:
             port_num = int(os.path.basename(port_path))
-            is_active = False
-            port_info = {} if include_details else None
-            
-            # Check if the port is active by reading the state file
-            state_path = os.path.join(port_path, "state")
             state = "Unknown"
+            is_active = False
+            state_path = os.path.join(port_path, "state")
             if os.path.exists(state_path):
                 with open(state_path, 'r') as f:
                     state = f.read().strip()
-                    # Port states: DOWN, INIT, ARM, ACTIVE
                     if "ACTIVE" in state:
                         is_active = True
-            
-            if include_details:
-                port_info["state"] = state
-            
-            # Get link layer
             link_layer = "Unknown"
             link_layer_path = os.path.join(port_path, "link_layer")
             if os.path.exists(link_layer_path):
                 with open(link_layer_path, 'r') as f:
                     link_layer = f.read().strip()
-                    if link_layer != "Unknown" and not is_active:
-                        is_active = True
-            
+            port_info = {
+                "port_num": port_num,
+                "state": state,
+                "is_active": is_active,
+                "link_layer": link_layer
+            }
+            # Optionally add more details
             if include_details:
-                port_info["link_layer"] = link_layer
-                
-                # Get port GID
                 gid_path = os.path.join(port_path, "gids", "0")
                 if os.path.exists(gid_path):
                     with open(gid_path, 'r') as f:
                         port_info["gid"] = f.read().strip()
-                
-                # Get port LID
                 lid_path = os.path.join(port_path, "lid")
                 if os.path.exists(lid_path):
                     with open(lid_path, 'r') as f:
                         port_info["lid"] = f.read().strip()
-                
-                # Get rate
                 rate_path = os.path.join(port_path, "rate")
                 if os.path.exists(rate_path):
                     with open(rate_path, 'r') as f:
                         port_info["rate"] = f.read().strip()
-                
-                # Record if port is active
-                port_info["is_active"] = is_active
-                ports_info[port_num] = port_info
-            elif is_active:
-                device_info["active_ports"].append(port_num)
-        
+            ports.append(port_info)
+
+        device_info = {
+            "name": device_name,
+            "pci_bus_id": pci_bus_id,
+            "ports": ports
+        }
         if include_details:
-            device_info["ports"] = ports_info
-            device_info["name"] = device_name  # Include the device name as part of the information
-            result[pci_bus_id] = device_info
+            node_guid_path = os.path.join(device_path, "node_guid")
+            if os.path.exists(node_guid_path):
+                with open(node_guid_path, 'r') as f:
+                    device_info["node_guid"] = f.read().strip()
+            device_type_path = os.path.join(device_path, "node_type")
+            if os.path.exists(device_type_path):
+                with open(device_type_path, 'r') as f:
+                    device_info["type"] = f.read().strip()
+
+        if is_gaudi:
+            gaudi_devices.append(device_info)
         else:
-            # Sort the active ports before returning
-            device_info["active_ports"] = sorted(device_info["active_ports"])
-            device_info["name"] = device_name  # Include the device name as part of the information
-            result[pci_bus_id] = device_info
-    
-    return result
+            other_devices.append(device_info)
+    print(f"Found {len(gaudi_devices)} Gaudi devices and {len(other_devices)} other devices")
+    return {"gaudi": gaudi_devices, "other": other_devices}
 
 def print_infiniband_info(detailed: bool = False):
     """
