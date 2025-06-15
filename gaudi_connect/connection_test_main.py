@@ -16,9 +16,9 @@ import random
 from typing import Dict, List, Tuple, Any, Optional
 import concurrent.futures
 
-from gaudi_connect.devices.gaudi_devices import get_gaudi_devices, get_detailed_gaudi_info
-from gaudi_connect.devices.infiniband_devices import get_infiniband_devices
-from gaudi_connect.connectivity.gaudi2_connect import parse_connectivity_file
+from gaudi_connect.devices.GaudiDevices import GaudiDevices
+from gaudi_connect.devices.InfinibandDevices import InfinibandDevices
+from gaudi_connect.connectivity.GaudiRouting import GaudiRouting
 
 def get_device_by_module_id(devices: Dict[str, Dict[str, Any]], module_id: int) -> Optional[Dict[str, Any]]:
     """
@@ -40,43 +40,7 @@ def get_device_by_module_id(devices: Dict[str, Dict[str, Any]], module_id: int) 
     return None
 
 
-def check_port_status(device_bus_id: str, port_num: int, ib_devices: Dict[str, Dict[str, Any]]) -> Tuple[bool, str]:
-    """
-    Check if an InfiniBand port is active.
-    
-    Args:
-        device_bus_id: PCI bus ID of the device
-        port_num: Port number to check
-        ib_devices: Dictionary of InfiniBand devices with port information
-        
-    Returns:
-        Tuple of (is_active, status_message)
-    """
-    if not ib_devices or device_bus_id not in ib_devices:
-        return False, f"Device with bus ID {device_bus_id} not found in InfiniBand devices"
-    
-    device_info = ib_devices[device_bus_id]
-    
-    # Handle detailed and basic information formats
-    if "ports" in device_info:  # Detailed information
-        ports_info = device_info["ports"]
-        if port_num not in ports_info:
-            return False, f"Port {port_num} not found on device {device_bus_id}"
-            
-        port_info = ports_info[port_num]
-        is_active = port_info.get("is_active", False)
-        state = port_info.get("state", "Unknown")
-        
-        if is_active:
-            return True, f"Port {port_num} is ACTIVE with state: {state}"
-        else:
-            return False, f"Port {port_num} is INACTIVE with state: {state}"
-    else:  # Basic information
-        active_ports = device_info.get("active_ports", [])
-        if port_num in active_ports:
-            return True, f"Port {port_num} is in the list of active ports"
-        else:
-            return False, f"Port {port_num} is not in the list of active ports: {active_ports}"
+
 
 
 def connect_devices(source_device: Dict[str, Any], source_port: int,
@@ -127,13 +91,16 @@ def connect_devices(source_device: Dict[str, Any], source_port: int,
     
     # Check port status in InfiniBand devices if available
     if ib_devices:
+        # Create an InfinibandDevices instance to use its methods
+        ib_device = InfinibandDevices()
+        
         # Check source port status
-        src_active, src_status = check_port_status(src_bus_id, source_port, ib_devices)
+        src_active, src_status = ib_device.check_port_status(src_bus_id, source_port, ib_devices)
         if not src_active:
             return False, f"Source port check failed: {src_status}"
             
         # Check destination port status
-        dst_active, dst_status = check_port_status(dst_bus_id, dest_port, ib_devices)
+        dst_active, dst_status = ib_device.check_port_status(dst_bus_id, dest_port, ib_devices)
         if not dst_active:
             return False, f"Destination port check failed: {dst_status}"
             
@@ -227,8 +194,11 @@ def test_connections(connections: List[Dict[str, int]],
     if check_ib_ports:
         print("Retrieving InfiniBand device information for port status check...")
         try:
+            # Create an InfinibandDevices instance to use its methods
+            ib_device = InfinibandDevices()
+            
             # Get detailed port information
-            ib_result = get_infiniband_devices(include_details=True)
+            ib_result = ib_device.get_infiniband_devices(include_details=True)
             if not ib_result or (not ib_result.get('gaudi') and not ib_result.get('other')):
                 print("Warning: No InfiniBand devices found, port status check will be skipped.")
                 ib_devices = {}
@@ -238,15 +208,10 @@ def test_connections(connections: List[Dict[str, int]],
                 ib_devices = {}
                 for dev in ib_result.get('gaudi', []):
                     ib_devices[dev['pci_bus_id']] = dev
-<<<<<<< HEAD
-                for dev in ib_result.get('other', []):
-                    ib_devices[dev['pci_bus_id']] = dev
-=======
                     ib_vendor_map[dev['pci_bus_id']] = dev.get('vendor_id', '1da3')
                 for dev in ib_result.get('other', []):
                     ib_devices[dev['pci_bus_id']] = dev
                     ib_vendor_map[dev['pci_bus_id']] = dev.get('vendor_id', 'unknown')
->>>>>>> f57dd94 (update infiniband device detection.)
         except Exception as e:
             print(f"Warning: Error retrieving InfiniBand device information: {e}")
             print("Port status check will be skipped.")
@@ -467,7 +432,8 @@ def main():
     
     # Get device information
     print("Retrieving Gaudi device information...")
-    devices = get_gaudi_devices()
+    gaudi_device = GaudiDevices()
+    devices = gaudi_device.get_gaudi_devices()
     
     if not devices:
         print("No Gaudi devices found or device information not available.")
@@ -479,7 +445,8 @@ def main():
     print(f"Parsing connectivity information from {connectivity_file}...")
     if args.type:
         print(f"Using predefined connectivity type: {args.type}")
-    connections = parse_connectivity_file(connectivity_file)
+    router = GaudiRouting(connectivity_file)
+    connections = router.parse_connectivity_file()
     
     if not connections:
         print(f"No connectivity information found in {connectivity_file}.")
