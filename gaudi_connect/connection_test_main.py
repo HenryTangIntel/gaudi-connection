@@ -109,6 +109,22 @@ def connect_devices(source_device: Dict[str, Any], source_port: int,
     print(f"Connecting module {src_module_id}:{source_port} to module {dst_module_id}:{dest_port}")
     print(f"  Bus IDs: {src_bus_id} -> {dst_bus_id}")
     
+    # Ensure vendor_id is not None for both source and destination
+    src_vendor_id = source_device.get('vendor_id', 'unknown')
+    dst_vendor_id = dest_device.get('vendor_id', 'unknown')
+    if src_vendor_id is None:
+        src_vendor_id = 'unknown'
+    if dst_vendor_id is None:
+        dst_vendor_id = 'unknown'
+    if src_vendor_id == 'unknown' or dst_vendor_id == 'unknown':
+        print(f"ERROR: Source or destination vendor_id is None or unknown. Source: {src_vendor_id}, Dest: {dst_vendor_id}")
+        return False, "Connection skipped: source or destination vendor_id is None or unknown."
+    # Only test connection between Gaudi devices (vendor_id == '1da3')
+    if src_vendor_id != '1da3' or dst_vendor_id != '1da3':
+        print(f"Source vendor_id: {src_vendor_id}")
+        print(f"Dest vendor_id: {dst_vendor_id}")
+        return False, "Connection skipped: one or both devices are not Gaudi devices."
+    
     # Check port status in InfiniBand devices if available
     if ib_devices:
         # Check source port status
@@ -207,6 +223,7 @@ def test_connections(connections: List[Dict[str, int]],
     
     # Get InfiniBand device information if port checking is enabled
     ib_devices = None
+    ib_vendor_map = {}
     if check_ib_ports:
         print("Retrieving InfiniBand device information for port status check...")
         try:
@@ -221,11 +238,23 @@ def test_connections(connections: List[Dict[str, int]],
                 ib_devices = {}
                 for dev in ib_result.get('gaudi', []):
                     ib_devices[dev['pci_bus_id']] = dev
+<<<<<<< HEAD
                 for dev in ib_result.get('other', []):
                     ib_devices[dev['pci_bus_id']] = dev
+=======
+                    ib_vendor_map[dev['pci_bus_id']] = dev.get('vendor_id', '1da3')
+                for dev in ib_result.get('other', []):
+                    ib_devices[dev['pci_bus_id']] = dev
+                    ib_vendor_map[dev['pci_bus_id']] = dev.get('vendor_id', 'unknown')
+>>>>>>> f57dd94 (update infiniband device detection.)
         except Exception as e:
             print(f"Warning: Error retrieving InfiniBand device information: {e}")
             print("Port status check will be skipped.")
+
+    # Propagate vendor_id from ib_vendor_map into devices dict
+    for bus_id, device in devices.items():
+        if 'vendor_id' not in device or device['vendor_id'] is None:
+            device['vendor_id'] = ib_vendor_map.get(bus_id, 'unknown')
     
     print(f"Testing {len(valid_connections)} connections between Gaudi devices...")
     
