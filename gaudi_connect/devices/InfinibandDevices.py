@@ -136,6 +136,8 @@ class InfinibandDevices:
                     is_active = port_info.get("is_active", False)
                     state = port_info.get("state", "Unknown")
                     
+                    print(f"Port {port_num} check: state={state}, is_active={is_active}")
+                    
                     if is_active:
                         return True, f"Port {port_num} is ACTIVE with state: {state}"
                     else:
@@ -200,7 +202,10 @@ class InfinibandDevices:
             if os.path.exists(state_path):
                 with open(state_path, 'r') as f:
                     state = f.read().strip()
-                    if "ACTIVE" in state:
+                    # More precise state detection - check for proper IB port states
+                    # Per the InfiniBand spec, valid states are: 
+                    # 1: Down, 2: Initializing, 3: Armed, 4: Active, 5: ActiveDefer
+                    if state.startswith("4:") or state.startswith("5:") or "ACTIVE" in state:
                         is_active = True
                         
             # Get link layer
@@ -270,6 +275,134 @@ class InfinibandDevices:
         if os.path.exists(device_type_path):
             with open(device_type_path, 'r') as f:
                 device_info["type"] = f.read().strip()
+                
+        # Get RDMA protocol version
+        device_info["rdma_protocol_version"] = self._get_rdma_protocol_version(device_path)
+    
+    def _get_rdma_protocol_version(self, device_path: str) -> str:
+        """
+        Determine the RDMA protocol version supported by the device.
+        
+        Args:
+            device_path: The path to the InfiniBand device
+            
+        Returns:
+            str: RDMA protocol version ("v1", "v2", "unknown")
+        """
+        # Try to get firmware version, which can indicate protocol capabilities
+        fw_ver_path = os.path.join(device_path, "fw_ver")
+        fw_ver = None
+        if os.path.exists(fw_ver_path):
+            try:
+                with open(fw_ver_path, 'r') as f:
+                    fw_ver = f.read().strip()
+            except Exception:
+                pass
+        
+        # Get device name to check device type
+        device_name = os.path.basename(device_path)
+        
+        # Check if ibv_devinfo is available for more details
+        device_info = None
+        try:
+            import subprocess
+            cmd = ["ibv_devinfo", "-d", device_name]
+            result = subprocess.run(cmd, check=True, capture_output=True, text=True)
+            device_info = result.stdout
+        except Exception:
+            pass
+            
+        # Try to determine RDMA version based on collected information
+        rdma_version = "unknown"
+        
+        # Get real path to find PCI information
+        real_path = os.path.realpath(device_path)
+        
+        # ConnectX-4 and newer generally support RDMAv2
+        # ConnectX-3 supports RDMAv1
+        # Gaudi HLS devices support RDMAv2
+        if any(x in device_name for x in ["hbl_", "hls_"]):
+            # Gaudi/Habana devices support RDMAv2
+            rdma_version = "v2"
+        elif "mlx5" in device_name or "mlx6" in device_name:
+            # ConnectX-4/5/6 support RDMAv2
+            rdma_version = "v2"
+        elif "mlx4" in device_name:
+            # ConnectX-3 generally supports RDMAv1 
+            rdma_version = "v1"
+        elif device_info:
+            # Try to determine from ibv_devinfo output
+            if "ConnectX-4" in device_info or "ConnectX-5" in device_info or "ConnectX-6" in device_info:
+                rdma_version = "v2"
+            elif "ConnectX-3" in device_info:
+                rdma_version = "v1"
+        
+        # If we still don't know, try to check firmware version or vendor_part_id
+        if rdma_version == "unknown" and fw_ver:
+            # Higher firmware versions generally indicate newer hardware with RDMAv2
+            try:
+                # ConnectX-4 and newer firmware typically starts with 12.x, 14.x, or 16.x
+                if fw_ver.startswith(("12.", "14.", "16.")):
+                    rdma_version = "v2"
+                # ConnectX-3 firmware typically starts with 2.x
+                elif fw_ver.startswith("2."):
+                    rdma_version = "v1"
+            except Exception:
+                pass
+
+        return rdma_version
+    
+    def check_rdma_compatibility(self, src_device_bus_id: str, dst_device_bus_id: str, 
+                           ib_devices: Optional[Dict[str, Dict[str, Any]]] = None) -> Tuple[bool, str]:
+        """
+        Check if two devices have compatible RDMA protocol versions.
+        
+        Args:
+            src_device_bus_id: Source device PCI bus ID
+            dst_device_bus_id: Destination device PCI bus ID
+            ib_devices: Dictionary of InfiniBand devices with information. If None, will get devices
+            
+        Returns:
+            Tuple of (is_compatible, status_message)
+        """
+        if ib_devices is None:
+            # Get all IB devices with details
+            all_devices = self.get_infiniband_devices(include_details=True)
+            ib_devices = {}
+            
+            # Process Gaudi devices
+            for device in all_devices.get("gaudi", []):
+                if "pci_bus_id" in device and device["pci_bus_id"] != "Unknown":
+                    ib_devices[device["pci_bus_id"]] = device
+                    
+            # Process other devices
+            for device in all_devices.get("other", []):
+                if "pci_bus_id" in device and device["pci_bus_id"] != "Unknown":
+                    ib_devices[device["pci_bus_id"]] = device
+        
+        if not ib_devices:
+            return False, "No InfiniBand device information available"
+            
+        src_device = ib_devices.get(src_device_bus_id)
+        if not src_device:
+            return False, f"Source device with bus ID {src_device_bus_id} not found in InfiniBand devices"
+            
+        dst_device = ib_devices.get(dst_device_bus_id)
+        if not dst_device:
+            return False, f"Destination device with bus ID {dst_device_bus_id} not found in InfiniBand devices"
+        
+        # Get RDMA protocol versions
+        src_rdma_ver = src_device.get("rdma_protocol_version", "unknown")
+        dst_rdma_ver = dst_device.get("rdma_protocol_version", "unknown")
+        
+        # Only v2 devices can connect to v2, v1 can connect to v1 or v2 (backward compatibility)
+        if src_rdma_ver == "unknown" or dst_rdma_ver == "unknown":
+            return True, f"RDMA protocol versions: Source={src_rdma_ver}, Destination={dst_rdma_ver} (assuming compatible)"
+        
+        if src_rdma_ver == "v2" and dst_rdma_ver == "v1":
+            return False, f"RDMA protocol mismatch: Source={src_rdma_ver}, Destination={dst_rdma_ver} - v2 cannot connect to v1"
+            
+        return True, f"RDMA protocols compatible: Source={src_rdma_ver}, Destination={dst_rdma_ver}"
     
     def clear_cache(self):
         """
@@ -312,6 +445,8 @@ class InfinibandDevices:
                         print(f"  Node GUID: {device_info['node_guid']}")
                     if "type" in device_info:
                         print(f"  Node Type: {device_info['type']}")
+                    if "rdma_protocol_version" in device_info:
+                        print(f"  RDMA Protocol: {device_info['rdma_protocol_version']}")
                     
                     print("  Ports:")
                     ports = device_info.get("ports", [])

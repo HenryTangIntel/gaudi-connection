@@ -18,7 +18,6 @@ import concurrent.futures
 
 from gaudi_connect.devices.GaudiDevices import GaudiDevices, GaudiDevice
 from gaudi_connect.devices.InfinibandDevices import InfinibandDevices
-from gaudi_connect.devices.GaudiDeviceFactory import GaudiDeviceFactory
 from gaudi_connect.connectivity.GaudiRouting import GaudiRouting
 
 def get_device_by_module_id(devices: Dict[str, Dict[str, Any]], module_id: int) -> Optional[Dict[str, Any]]:

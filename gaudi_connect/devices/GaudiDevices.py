@@ -206,6 +206,40 @@ class GaudiDevice:
                 f"  IB Name: {self.ib_name}\n"
                 f"  Active Ports: {active_ports_str}")
 
+    def _get_vendor_id_from_sys(self, bus_id: str) -> Optional[str]:
+        """
+        Get vendor ID from the /sys filesystem for a given PCI bus ID.
+        
+        Args:
+            bus_id: The PCI bus ID (e.g., "0000:4d:00.0")
+            
+        Returns:
+            str: Vendor ID if found, None otherwise
+        """
+        if not bus_id:
+            return None
+            
+        # Construct path to the PCI device in sys filesystem
+        pci_path = f"/sys/bus/pci/devices/{bus_id}"
+        
+        # Check if the path exists
+        if not os.path.exists(pci_path):
+            return None
+        
+        # Read the vendor file
+        vendor_file = os.path.join(pci_path, 'vendor')
+        if os.path.exists(vendor_file):
+            try:
+                with open(vendor_file, 'r') as f:
+                    vendor_id = f.read().strip().lower()
+                    if vendor_id.startswith('0x'):
+                        vendor_id = vendor_id[2:]
+                return vendor_id
+            except Exception as e:
+                print(f"Error reading vendor file for {bus_id}: {e}")
+                
+        return None
+
 
 class GaudiDevices:
     """
@@ -219,6 +253,40 @@ class GaudiDevices:
         self._devices_cache = None
         self._detailed_devices_cache = None
         self._gaudi_device_objects = {}  # Cache for GaudiDevice objects
+    
+    def _get_vendor_id_from_sys(self, bus_id: str) -> Optional[str]:
+        """
+        Get vendor ID from the /sys filesystem for a given PCI bus ID.
+        
+        Args:
+            bus_id: The PCI bus ID (e.g., "0000:4d:00.0")
+            
+        Returns:
+            str: Vendor ID if found, None otherwise
+        """
+        if not bus_id:
+            return None
+            
+        # Construct path to the PCI device in sys filesystem
+        pci_path = f"/sys/bus/pci/devices/{bus_id}"
+        
+        # Check if the path exists
+        if not os.path.exists(pci_path):
+            return None
+        
+        # Read the vendor file
+        vendor_file = os.path.join(pci_path, 'vendor')
+        if os.path.exists(vendor_file):
+            try:
+                with open(vendor_file, 'r') as f:
+                    vendor_id = f.read().strip().lower()
+                    if vendor_id.startswith('0x'):
+                        vendor_id = vendor_id[2:]
+                return vendor_id
+            except Exception as e:
+                print(f"Error reading vendor file for {bus_id}: {e}")
+                
+        return None
     
     def get_gaudi_devices(self, use_cache: bool = True) -> Dict[str, Dict[str, Any]]:
         """
@@ -264,6 +332,15 @@ class GaudiDevices:
                 # Use bus_id as the key in the returned dictionary
                 if 'bus_id' in device:
                     bus_id = device['bus_id']
+                    
+                    # Get vendor_id from /sys filesystem
+                    vendor_id = self._get_vendor_id_from_sys(bus_id)
+                    if vendor_id:
+                        device['vendor_id'] = vendor_id
+                    else:
+                        # Set the default Habana Labs vendor ID for Gaudi devices
+                        device['vendor_id'] = '1da3'
+                    
                     devices[bus_id] = device
             
             # Update cache
@@ -480,6 +557,15 @@ class GaudiDevices:
                 # Use bus_id as the key in the returned dictionary
                 if 'bus_id' in device:
                     bus_id = device['bus_id']
+                    
+                    # Get vendor_id from /sys filesystem
+                    vendor_id = self._get_vendor_id_from_sys(bus_id)
+                    if vendor_id:
+                        device['vendor_id'] = vendor_id
+                    else:
+                        # Set the default Habana Labs vendor ID for Gaudi devices
+                        device['vendor_id'] = '1da3'
+                    
                     devices[bus_id] = device
             
             # Update cache
