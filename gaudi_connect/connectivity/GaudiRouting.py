@@ -112,3 +112,52 @@ class GaudiRouting:
             modules[dst_module]["incoming"].append((src_module, dst_port, src_port))
         
         return modules
+    
+    def match_devices_to_connections(self, devices: Dict[str, Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """
+        Match the actual devices to the connectivity information.
+        
+        This function takes the available devices (with module IDs) and matches them
+        with the connections defined in the connectivity file, ensuring that only
+        connections with both devices available are included.
+        
+        Args:
+            devices: Dictionary of devices keyed by bus ID with device information
+                    Each device should have a 'module_id' field
+        
+        Returns:
+            List of dictionaries containing:
+                - connection: The original connection dictionary
+                - source_device_id: Bus ID of the source device
+                - dest_device_id: Bus ID of the destination device
+        """
+        if not self.connections:
+            print("No connections defined. Call parse_connectivity_file() first.")
+            return []
+        
+        # Create a mapping from module ID to device bus ID
+        module_to_bus_id = {}
+        for bus_id, device in devices.items():
+            if 'module_id' in device and device['module_id'] is not None:
+                module_to_bus_id[device['module_id']] = bus_id
+        
+        # Match connections to actual devices
+        matched_connections = []
+        for conn in self.connections:
+            src_module_id = conn['source_module_id']
+            dst_module_id = conn['destination_module_id']
+            
+            # Skip connections between same module
+            if src_module_id == dst_module_id:
+                continue
+            
+            # Check if we have both source and destination devices
+            if src_module_id in module_to_bus_id and dst_module_id in module_to_bus_id:
+                matched_conn = {
+                    'connection': conn,
+                    'source_device_id': module_to_bus_id[src_module_id],
+                    'dest_device_id': module_to_bus_id[dst_module_id]
+                }
+                matched_connections.append(matched_conn)
+        
+        return matched_connections
