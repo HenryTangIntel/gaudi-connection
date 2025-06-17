@@ -58,7 +58,7 @@ class GaudiRouting:
         
         try:
             with open(csv_path, 'r') as f:
-                csv_reader = csv.reader(f, delimiter=' ', skipinitialspace=True)
+                csv_reader = csv.reader(f, delimiter='\t', skipinitialspace=True)
                 
                 # Process each row in the CSV file
                 for row_idx, row in enumerate(csv_reader, 1):
