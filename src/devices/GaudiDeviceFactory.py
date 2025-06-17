@@ -6,9 +6,7 @@ This module provides a factory class for creating and managing GaudiDevice objec
 by incorporating data from both GaudiDevices and InfinibandDevices classes.
 """
 
-import os
-from typing import Dict, List, Any, Optional, Tuple, Set
-
+from typing import Dict, List,  Optional,  Set
 from src.devices.GaudiDevices import GaudiDevices, GaudiDevice
 from src.devices.InfinibandDevices import InfinibandDevices
 

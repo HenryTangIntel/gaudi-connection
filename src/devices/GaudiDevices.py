@@ -10,7 +10,7 @@ import subprocess
 import csv
 import os
 import json
-from typing import List, Dict, Any, Optional, Set
+from typing import  Dict, Any, Optional
 
 
 class GaudiDevice:

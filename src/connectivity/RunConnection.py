@@ -1,12 +1,10 @@
 import os
 import json
 import argparse
-from typing import Dict, List, Tuple, Any, Optional
+from typing import Dict, List,  Any, Optional
 
 from src.connectivity.GaudiRouting import GaudiRouting
-from src.devices.GaudiDevices import GaudiDevices 
 from src.devices.GaudiDeviceFactory import GaudiDeviceFactory
-from src.devices.InfinibandDevices import InfinibandDevices
 
 
 class RunConnection:

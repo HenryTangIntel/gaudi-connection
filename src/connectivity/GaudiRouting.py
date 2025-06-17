@@ -6,10 +6,6 @@ This script extracts connectivity information from the Gaudi2 connectivity CSV f
 """
 
 import os
-import sys
-import csv
-import json
-import argparse
 from typing import List, Dict, Tuple, Any, Optional
 
 class GaudiRouting:
