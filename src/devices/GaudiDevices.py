@@ -390,7 +390,7 @@ class GaudiDevices:
         infiniband_devices = {}
         if include_infiniband:
             try:
-                from gaudi_connect.devices.InfinibandDevices import InfinibandDevices
+                from src.devices.InfinibandDevices import InfinibandDevices
                 ib_obj = InfinibandDevices()
                 ib_info = ib_obj.get_infiniband_devices(include_details=True)
                 
@@ -404,13 +404,8 @@ class GaudiDevices:
         
         # Create GaudiDevice objects
         device_objects = {}
-        print(f"Creating GaudiDevice objects from {len(detailed_devices)} detailed devices")
-        print(f"Available InfiniBand devices: {list(infiniband_devices.keys())}")
         for bus_id, device_info in detailed_devices.items():
-            print(f"Processing device with bus ID: {bus_id}")
             ib_info = infiniband_devices.get(bus_id)
-            if ib_info:
-                print(f"Found matching InfiniBand info for {bus_id}")
             device_objects[bus_id] = GaudiDevice(bus_id, device_info, ib_info)
         
         # Cache the objects if we're not including InfiniBand info (which can change)
@@ -526,12 +521,15 @@ class GaudiDevices:
         if use_cache and self._detailed_devices_cache is not None:
             return self._detailed_devices_cache
             
+        # If we have basic device info already, we can avoid some redundant calls
+        basic_devices = None
+        if use_cache and self._devices_cache is not None:
+            basic_devices = self._devices_cache.copy()
+            
         try:
             # Run the hl-smi command with all fields
             cmd = ["hl-smi", "-f", "csv"]
-            print(f"Running command: {' '.join(cmd)}")
             result = subprocess.run(cmd, check=True, capture_output=True, text=True)
-            print(f"Command output (first 200 chars): {result.stdout[:200]}")
             
             # Parse the CSV output
             devices = {}
