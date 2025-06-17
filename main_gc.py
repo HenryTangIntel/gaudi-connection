@@ -29,7 +29,6 @@ def make_connections(connectivity_file: Optional[str] = None,
     
     # Get all devices by module ID and parse connectivity file
     devices_by_module = factory.get_devices_by_module_id()
-    routing.parse_connectivity_file()
     
     # Get active ports for each device
     active_ports = factory.get_active_ports()

@@ -20,14 +20,18 @@ class GaudiRouting:
     
     def __init__(self, connectivity_file: Optional[str] = None):
         """
-        Initialize the GaudiRouting class.
+        Initialize the GaudiRouting class and parse the connectivity file.
         
         Args:
             connectivity_file: Path to the connectivity CSV file. If None, will use the default path.
         """
-        self.default_path = "/opt/habanalabs/perf-test/scale_up_tool/internal_data/connectivity_HLS2.csv"
+        #self.default_path = "/opt/habanalabs/perf-test/scale_up_tool/internal_data/connectivity_HLS2.csv"
+        self.default_path = "./connectivity_HLS2.csv"
         self.connectivity_file = connectivity_file or self.default_path
         self.connections = []
+        
+        # Parse the connectivity file during initialization
+        self.parse_connectivity_file()
     
     def parse_connectivity_file(self, csv_path: Optional[str] = None) -> List[Dict[str, int]]:
         """
@@ -46,17 +50,20 @@ class GaudiRouting:
         csv_path = csv_path or self.connectivity_file
         
         if not os.path.exists(csv_path):
-            print(f"Error: File '{csv_path}' does not exist.")
+            print(f"Warning: Connectivity file '{csv_path}' does not exist.")
             return []
         
         connections = []
+        line_count = 0
+        valid_connections = 0
         
         try:
             with open(csv_path, 'r') as f:
                 # Skip comment lines
                 lines = [line.strip() for line in f if line.strip() and not line.strip().startswith('#')]
+                line_count = len(lines)
                 
-                for line in lines:
+                for line_idx, line in enumerate(lines, 1):
                     parts = line.split()
                     if len(parts) >= 4:
                         try:
@@ -67,10 +74,19 @@ class GaudiRouting:
                                 "destination_port": int(parts[3])
                             }
                             connections.append(connection)
-                        except (ValueError, IndexError):
+                            valid_connections += 1
+                        except (ValueError, IndexError) as e:
+                            print(f"Warning: Invalid connection format at line {line_idx}: {line} - {str(e)}")
                             continue
+                    else:
+                        print(f"Warning: Skipping line {line_idx} with insufficient data: {line}")
         except Exception as e:
-            print(f"Error reading file: {e}")
+            print(f"Error reading connectivity file '{csv_path}': {e}")
+        
+        if valid_connections > 0:
+            print(f"Successfully parsed {valid_connections} connections from {line_count} lines in '{csv_path}'")
+        else:
+            print(f"No valid connections found in '{csv_path}'")
         
         self.connections = connections
         return connections
