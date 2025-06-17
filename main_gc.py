@@ -213,7 +213,11 @@ def RealRunConnection(connections):
         'details': results
     }
 
-if __name__ == "__main__":
+def main():
+    """
+    Main entry point for the Gaudi Connection Tool.
+    Parses command line arguments and executes appropriate actions.
+    """
     parser = argparse.ArgumentParser(description="Gaudi Connection Tool")
     parser.add_argument("-c", "--connectivity", help="Path to connectivity CSV file")
     parser.add_argument("-d", "--devices", action="store_true", help="Show device summary")
@@ -258,5 +262,6 @@ if __name__ == "__main__":
                 runner.save_to_json(args.output)
             else:
                 print(json.dumps(connections, indent=2))
-    
-    
+
+if __name__ == "__main__":
+    main()

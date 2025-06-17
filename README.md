@@ -153,3 +153,21 @@ The tool looks for official connectivity files at:
 - HLS2-PCIE: `/opt/habanalabs/perf-test/scale_up_tool/internal_data/connectivity_HLS2PCIE.csv`
 
 If these files are not accessible, the tool falls back to local versions included in this repository.
+
+## Testing
+
+To run the tests:
+
+```bash
+# Install test dependencies
+pip install -e ".[dev]"
+
+# Run all tests
+pytest
+
+# Run specific test modules
+pytest tests/unit/connectivity/test_gaudi_routing.py
+
+# Run with coverage report
+pytest --cov=src
+```
