@@ -7,6 +7,7 @@ This script extracts connectivity information from the Gaudi2 connectivity CSV f
 
 import os
 from typing import List, Dict, Tuple, Any, Optional
+import csv 
 
 class GaudiRouting:
     """
@@ -52,41 +53,48 @@ class GaudiRouting:
             return []
         
         connections = []
-        line_count = 0
         valid_connections = 0
+        total_lines = 0
         
         try:
             with open(csv_path, 'r') as f:
-                # Skip comment lines
-                lines = [line.strip() for line in f if line.strip() and not line.strip().startswith('#')]
-                line_count = len(lines)
+                csv_reader = csv.reader(f, delimiter=' ', skipinitialspace=True)
                 
-                for line_idx, line in enumerate(lines, 1):
-                    parts = line.split()
-                    if len(parts) >= 4:
+                # Process each row in the CSV file
+                for row_idx, row in enumerate(csv_reader, 1):
+                    total_lines += 1
+                    
+                    # Skip empty rows and comments
+                    if not row or (len(row) > 0 and row[0].startswith('#')):
+                        continue
+                    
+                    # Filter out empty strings that might appear due to extra spaces
+                    row = [item for item in row if item]
+                    
+                    if len(row) >= 4:
                         try:
                             connection = {
                                 "source": {
-                                   "module_id": int(parts[0]),
-                                   "port": int(parts[1])
+                                   "module_id": int(row[0]),
+                                   "port": int(row[1])
                                 },
                                 "destination": {
-                                   "module_id": int(parts[2]),
-                                   "port": int(parts[3])
+                                   "module_id": int(row[2]),
+                                   "port": int(row[3])
                                 },
                             }
                             connections.append(connection)
                             valid_connections += 1
                         except (ValueError, IndexError) as e:
-                            print(f"Warning: Invalid connection format at line {line_idx}: {line} - {str(e)}")
+                            print(f"Warning: Invalid connection format at line {row_idx}: {row} - {str(e)}")
                             continue
                     else:
-                        print(f"Warning: Skipping line {line_idx} with insufficient data: {line}")
+                        print(f"Warning: Skipping line {row_idx} with insufficient data: {row}")
         except Exception as e:
             print(f"Error reading connectivity file '{csv_path}': {e}")
         
         if valid_connections > 0:
-            print(f"Successfully parsed {valid_connections} connections from {line_count} lines in '{csv_path}'")
+            print(f"Successfully parsed {valid_connections} connections from {total_lines} lines in '{csv_path}'")
         else:
             print(f"No valid connections found in '{csv_path}'")
         
