@@ -25,8 +25,10 @@ class GaudiRouting:
         Args:
             connectivity_file: Path to the connectivity CSV file. If None, will use the default path.
         """
-        #self.default_path = "/opt/habanalabs/perf-test/scale_up_tool/internal_data/connectivity_HLS2.csv"
-        self.default_path = "./connectivity_HLS2.csv"
+        self.default_path = "/opt/habanalabs/perf-test/scale_up_tool/internal_data/connectivity_HLS2.csv"
+        # Fallback to local file if the system file is not available
+        if not os.path.exists(self.default_path):
+            self.default_path = "./connectivity_HLS2.csv"
         self.connectivity_file = connectivity_file or self.default_path
         self.connections = []
         
@@ -68,10 +70,14 @@ class GaudiRouting:
                     if len(parts) >= 4:
                         try:
                             connection = {
-                                "source_module_id": int(parts[0]),
-                                "source_port": int(parts[1]),
-                                "destination_module_id": int(parts[2]),
-                                "destination_port": int(parts[3])
+                                "source": {
+                                   "module_id": int(parts[0]),
+                                   "port": int(parts[1])
+                                },
+                                "destination": {
+                                   "module_id": int(parts[2]),
+                                   "port": int(parts[3])
+                                },
                             }
                             connections.append(connection)
                             valid_connections += 1
@@ -108,10 +114,10 @@ class GaudiRouting:
         modules = {}
         
         for conn in connections:
-            src_module = conn["source_module_id"]
-            src_port = conn["source_port"]
-            dst_module = conn["destination_module_id"]
-            dst_port = conn["destination_port"]
+            src_module = conn["source"]["module_id"]
+            src_port = conn["source"]["port"]
+            dst_module = conn["destination"]["module_id"]
+            dst_port = conn["destination"]["port"]
             
             # Filter by module ID if specified
             if module_id is not None and src_module != module_id and dst_module != module_id:
@@ -161,10 +167,10 @@ class GaudiRouting:
         # Match connections to actual devices
         matched_connections = []
         for conn in self.connections:
-            src_module_id = conn['source_module_id']
-            src_port = conn['source_port']
-            dst_module_id = conn['destination_module_id']
-            dst_port = conn['destination_port']
+            src_module_id = conn['source']['module_id']
+            src_port = conn['source']['port']
+            dst_module_id = conn['destination']['module_id']
+            dst_port = conn['destination']['port']
             
             # Skip connections between same module
             if src_module_id == dst_module_id:
