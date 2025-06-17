@@ -6,7 +6,7 @@ cd "$(dirname "$0")"
 
 # Default connectivity files
 SYSTEM_HLS2_CONNECTIVITY="/opt/habanalabs/perf-test/scale_up_tool/internal_data/connectivity_HLS2.csv"
-LOCAL_HLS2_CONNECTIVITY="$(pwd)/connectivity_test.csv"
+LOCAL_HLS2_CONNECTIVITY="$(pwd)/connectivity_HLS2.csv"
 
 # Check if the system connectivity file exists
 if [ -f "$SYSTEM_HLS2_CONNECTIVITY" ] && [ -r "$SYSTEM_HLS2_CONNECTIVITY" ]; then
