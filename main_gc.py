@@ -86,17 +86,17 @@ def make_connections(connectivity_file: Optional[str] = None,
             dst_port_gid = dst_device.ports[dst_port].get('gid')
             
         connection_record = {
-            'source_device': {
-                'bus_id': src_bus_id,
+            'source': {
                 'module_id': src_module_id,
                 'port': src_port,
+                'bus_id': src_bus_id,
                 'ib_name': src_device.ib_name,
                 'gid': src_port_gid
             },
-            'dest_device': {
-                'bus_id': dst_bus_id,
+            'destination': {
                 'module_id': dst_module_id,
                 'port': dst_port,
+                'bus_id': dst_bus_id,
                 'ib_name': dst_device.ib_name,
                 'gid': dst_port_gid
             }
