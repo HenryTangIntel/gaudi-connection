@@ -139,29 +139,7 @@ The tool includes functionality to run performance tests between connected Gaudi
 
 ### Performance Test Output
 
-When using the `--perf-output` option, the tool saves detailed performance test results in JSON format with the following structure:
-
-```json
-{
-  "summary": {
-    "total": 10,
-    "success": 8,
-    "failure": 1,
-    "error": 1
-  },
-  "details": [
-    {
-      "status": "success",
-      "output": "...",
-      "error": "",
-      "duration": "5 seconds",
-      "source": "mlx5_0:port7 (GID: fe80:0000:0000:0000:0011:2233:4455:6677)",
-      "destination": "mlx5_1:port7 (GID: fe80:0000:0000:0000:0011:2233:4455:6678)"
-    },
-    ...
-  ]
-}
-```
+When using the `--perf-output` option, the tool saves detailed performance test results in JSON format.
 
 ### Requirements
 
