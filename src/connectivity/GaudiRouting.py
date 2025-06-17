@@ -143,7 +143,8 @@ class GaudiRouting:
         
         Returns:
             List of dictionaries containing:
-                - connection: The original connection dictionary
+                - source: Dictionary with module_id and port
+                - destination: Dictionary with module_id and port
                 - source_device_id: Bus ID of the source device
                 - dest_device_id: Bus ID of the destination device
         """
@@ -161,7 +162,9 @@ class GaudiRouting:
         matched_connections = []
         for conn in self.connections:
             src_module_id = conn['source_module_id']
+            src_port = conn['source_port']
             dst_module_id = conn['destination_module_id']
+            dst_port = conn['destination_port']
             
             # Skip connections between same module
             if src_module_id == dst_module_id:
@@ -170,7 +173,14 @@ class GaudiRouting:
             # Check if we have both source and destination devices
             if src_module_id in module_to_bus_id and dst_module_id in module_to_bus_id:
                 matched_conn = {
-                    'connection': conn,
+                    'source': {
+                        'module_id': src_module_id,
+                        'port': src_port
+                    },
+                    'destination': {
+                        'module_id': dst_module_id,
+                        'port': dst_port
+                    },
                     'source_device_id': module_to_bus_id[src_module_id],
                     'dest_device_id': module_to_bus_id[dst_module_id]
                 }

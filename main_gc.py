@@ -51,11 +51,10 @@ def make_connections(connectivity_file: Optional[str] = None,
     
     # Process and validate each connection
     for matched in matched_connections:
-        conn = matched['connection']
-        src_module_id = conn['source_module_id']
-        src_port = conn['source_port']
-        dst_module_id = conn['destination_module_id']
-        dst_port = conn['destination_port']
+        src_module_id = matched['source']['module_id']
+        src_port = matched['source']['port']
+        dst_module_id = matched['destination']['module_id']
+        dst_port = matched['destination']['port']
         
         src_bus_id = matched['source_device_id']
         dst_bus_id = matched['dest_device_id']
