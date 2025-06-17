@@ -1,100 +1,79 @@
-# Gaudi Connection Testing Framework
+# Gaudi Connection Reporting Tool
 
-A framework for testing connectivity between Gaudi and InfiniBand devices in a multi-device setup.
+A tool for reporting connectivity between Gaudi devices in an HLS2 system based on routing information.
 
 ## Overview
 
-This framework provides tools to validate connectivity between Gaudi devices based on connectivity information provided in CSV files. It supports checking InfiniBand port status before attempting connections and reports detailed results.
+This tool provides utilities to discover Gaudi devices on a system, parse routing information from CSV files, and generate reports about which devices can connect to each other. It supports outputting connection data in both human-readable and JSON formats.
 
 ## Directory Structure
 
 ```
 gaudi-connection/
-├── bin/                    # Executable scripts
-│   └── gaudi-connection-test  # Main executable
-├── gaudi_connect/          # Main package
+├── main_gc.py             # Main executable Python script
+├── run_gc.sh              # Wrapper script for easy execution
+├── src/                   # Source code directory
 │   ├── __init__.py
-│   ├── connection_test_main.py  # Main testing logic
-│   ├── connectivity/       # Connectivity parsing modules
+│   ├── connectivity/      # Connectivity parsing modules
 │   │   ├── __init__.py
-│   │   └── gaudi2_connect.py
-│   ├── devices/           # Device detection modules
-│   │   ├── __init__.py
-│   │   ├── gaudi_devices.py
-│   │   └── infiniband_devices.py
-│   ├── tests/            # Test utilities
-│   │   └── __init__.py
-│   └── utils/            # Utility functions
-│       └── __init__.py
-├── examples/              # Example connectivity files (legacy)
+│   │   └── GaudiRouting.py
+│   └── devices/           # Device detection modules
+│       ├── __init__.py
+│       ├── GaudiDeviceFactory.py
+│       ├── GaudiDevices.py
+│       └── InfinibandDevices.py
+├── connectivity_HLS2.csv  # Local copy of connectivity data (fallback)
+├── connectivity_test.csv  # Test connectivity data
 └── README.md              # This file
 ```
 
 ## Usage
 
-To run the connection tester:
+The easiest way to run the tool is using the wrapper script:
 
 ```bash
-./bin/gaudi-connection-test [options]
+./run_gc.sh [options]
+```
+
+Alternatively, you can run the Python script directly:
+
+```bash
+python3 main_gc.py [options]
 ```
 
 ### Options
 
-- `-t, --type {HLS2,HLS2pcie,HLS3,HLS3pcie}`: Select predefined connectivity type
-- `-f, --file PATH`: Path to a custom connectivity CSV file
-- `-p, --parallel`: Run tests in parallel
-- `--timeout SECONDS`: Timeout in seconds for parallel execution (default: 30)
-- `-v, --verbose`: Show detailed failure information
+- `-c, --connectivity FILE`: Path to connectivity CSV file (default: official HLS2 connectivity file)
+- `-s, --summarize`: Show summary of discovered devices
+- `-r, --routing`: Show routing information between devices (default behavior)
 - `-j, --json`: Output results in JSON format
-- `-n, --no-port-check`: Skip checking InfiniBand port status
-- `-r, --real`: Use real connection APIs instead of simulation
+- `-o, --output FILE`: Write output to a file
 ### Examples
 
-Test HLS2 connectivity:
+Show device summary:
 ```bash
-./bin/gaudi-connection-test -t HLS2 -v
+./run_gc.sh -s
 ```
 
-Run tests in parallel:
+Show routing information (default):
 ```bash
-./bin/gaudi-connection-test -p -t HLS3
+./run_gc.sh
 ```
 
-## Individual Components
-
-You can also use the individual modules separately:
-
-### Getting Gaudi Device Information
-
+Output in JSON format:
 ```bash
-python3 -m gaudi_connect.devices.gaudi_devices [options]
+./run_gc.sh -j
 ```
 
-Options:
-- `-d, --detailed`: Show detailed device information
-- `-j, --json`: Output in JSON format
-
-### Getting InfiniBand Device Information
-
+Output to a file:
 ```bash
-python3 -m gaudi_connect.devices.infiniband_devices [options]
+./run_gc.sh -o connections.txt
 ```
 
-Options:
-- `-d, --detailed`: Show detailed port information
-- `-j, --json`: Output in JSON format
-
-### Parsing Connectivity Information
-
+Use a custom connectivity file:
 ```bash
-python3 -m gaudi_connect.connectivity.gaudi2_connect [options]
+./run_gc.sh -c /path/to/connectivity.csv
 ```
-
-Options:
-- `-f, --file FILE`: Path to the connectivity CSV file
-- `-m, --module ID`: Show connections for a specific module ID
-- `-j, --json`: Output in JSON format
-- `-d, --detailed`: Show detailed connection information
 
 ## Connectivity File Format
 
@@ -111,15 +90,19 @@ Example:
 0 6 1 6
 ```
 
-## Device Support
+## Features
 
-Currently supports:
-- HLS2 systems (default)
-- HLS2pcie systems
-- HLS3 systems
-- HLS3pcie systems
+- Automatic discovery of Gaudi and InfiniBand devices on the system
+- Parsing of HLS2 routing information from official Habana connectivity files
+- Reporting of all possible connections between discovered Gaudi devices
+- Display of GID (Global Identifier) information for each connection
+- Support for both human-readable and JSON output formats
+- Fallback to local connectivity files if the official files aren't accessible
 
-## Port Status Checking
+## Official Connectivity Files
 
-By default, the framework checks the status of InfiniBand ports before attempting connections
-and reports failures when ports are inactive. This can be disabled with the `-n/--no-port-check` option.
+The tool looks for official connectivity files at:
+- HLS2: `/opt/habanalabs/perf-test/scale_up_tool/internal_data/connectivity_HLS2.csv`
+- HLS2-PCIE: `/opt/habanalabs/perf-test/scale_up_tool/internal_data/connectivity_HLS2PCIE.csv`
+
+If these files are not accessible, the tool falls back to local versions included in this repository.
