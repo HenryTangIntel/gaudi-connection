@@ -9,44 +9,30 @@ import glob
 import json
 from typing import Dict, List, Tuple, Any, Optional
 
+
 class InfinibandDevices:
     """
     Class for detecting and managing InfiniBand devices.
     Provides methods to scan the system for InfiniBand devices and retrieve information about them.
     """
     
-    def __init__(self):
+    def __init__(self, gaudi_vendor_id: str = '1da3'):
         """Initialize the InfinibandDevices class."""
         # Cache for device information
-        self._devices_cache = None
+        self._other_devices = {}  # Other devices
+        self._gaudi_devices = {}  # Gaudi devices
+
+        self._gaudi_vendor_id = gaudi_vendor_id.lower()  # Ensure vendor ID is lowercase
         # Base path for InfiniBand devices
         self.ib_path = "/sys/class/infiniband"
-        # Gaudi vendor ID
-        self.gaudi_vendor_id = '1da3'
-    
-    def get_infiniband_devices(self, include_details: bool = False, use_cache: bool = False) -> Dict[str, Any]:
-        """
-        Scan the /sys filesystem to find all InfiniBand devices and detect active ports.
-        
-        Args:
-            include_details: If True, return detailed information about each port, otherwise just return port numbers
-            use_cache: If True, use cached device information if available
-        
-        Returns:
-            Dict: Dictionary with "gaudi" and "other" categories, each containing a list of devices.
-            Each device entry contains device name, PCI bus ID, and port information.
-        """
-        # Return cached devices if available and cache usage is enabled
-        if use_cache and self._devices_cache is not None:
-            return self._devices_cache
-            
+
+    def get_infiniband_devices(self, gaudi_devices):
+
         if not os.path.exists(self.ib_path):
             print(f"InfiniBand path {self.ib_path} does not exist")
-            return {"gaudi": [], "other": []}
+            return {"gaudi": {}, "other": {}}
     
-        gaudi_devices = []
-        other_devices = []
-    
+        
         for device_path in glob.glob(os.path.join(self.ib_path, "*")):
             device_name = os.path.basename(device_path)
             # Extract PCI bus ID from the device path (symlink) - use the LAST one in the path
@@ -67,90 +53,31 @@ class InfinibandDevices:
             vendor_id = None
             if pci_path:
                 vendor_id = self._get_vendor_id(pci_path)
-            is_gaudi = vendor_id == self.gaudi_vendor_id
-    
+            is_gaudi = vendor_id == self._gaudi_vendor_id
+
             # Gather port info
-            ports = self._gather_port_info(device_path, include_details)
+            ports = self._gather_port_info(device_path)
     
             device_info = {
-                "name": device_name,
+                "ib_name": device_name,
                 "pci_bus_id": pci_bus_id,
                 "vendor_id": vendor_id,
                 "ports": ports
             }
             
-            if include_details:
-                self._add_device_details(device_path, device_info)
-    
             if is_gaudi:
-                gaudi_devices.append(device_info)
+                # If it's a Gaudi device, check if it exists in the GaudiDevices cache
+                gaudidevice = gaudi_devices.get_device_by_bus_id(pci_bus_id)
+                if gaudidevice:
+                    gaudidevice.update_device_info(device_info)
+                self._gaudi_devices[pci_bus_id] = gaudidevice
             else:
-                other_devices.append(device_info)
-                
-        result = {"gaudi": gaudi_devices, "other": other_devices}
-        print(f"Found {len(gaudi_devices)} Gaudi devices and {len(other_devices)} other devices")
-        
-        # Update cache
-        if use_cache:
-            self._devices_cache = result
-            
-        return result
-    
-    def check_port_status(self, device_bus_id: str, port_num: int, ib_devices: Optional[Dict[str, Dict[str, Any]]] = None) -> Tuple[bool, str]:
-        """
-        Check if an InfiniBand port is active.
-        
-        Args:
-            device_bus_id: PCI bus ID of the device
-            port_num: Port number to check
-            ib_devices: Dictionary of InfiniBand devices with port information. If None, will get devices
-            
-        Returns:
-            Tuple of (is_active, status_message)
-        """
-        if ib_devices is None:
-            # Get all IB devices, flattening the gaudi and other categories into a single dict by bus ID
-            all_devices = self.get_infiniband_devices(include_details=True)
-            ib_devices = {}
-            
-            # Process Gaudi devices
-            for device in all_devices.get("gaudi", []):
-                if "pci_bus_id" in device and device["pci_bus_id"] != "Unknown":
-                    ib_devices[device["pci_bus_id"]] = device
-                    
-            # Process other devices
-            for device in all_devices.get("other", []):
-                if "pci_bus_id" in device and device["pci_bus_id"] != "Unknown":
-                    ib_devices[device["pci_bus_id"]] = device
-        
-        if not ib_devices or device_bus_id not in ib_devices:
-            return False, f"Device with bus ID {device_bus_id} not found in InfiniBand devices"
-        
-        device_info = ib_devices[device_bus_id]
-        
-        # Handle list of ports format
-        if "ports" in device_info:  
-            # Find the port with the matching port number
-            for port_info in device_info["ports"]:
-                if port_info.get("port_num") == port_num:
-                    is_active = port_info.get("is_active", False)
-                    state = port_info.get("state", "Unknown")
-                    
-                    print(f"Port {port_num} check: state={state}, is_active={is_active}")
-                    
-                    if is_active:
-                        return True, f"Port {port_num} is ACTIVE with state: {state}"
-                    else:
-                        return False, f"Port {port_num} is INACTIVE with state: {state}"
-                        
-            return False, f"Port {port_num} not found on device {device_bus_id}"
-        else:  # Basic information (legacy format)
-            active_ports = device_info.get("active_ports", [])
-            if port_num in active_ports:
-                return True, f"Port {port_num} is in the list of active ports"
-            else:
-                return False, f"Port {port_num} is not in the list of active ports: {active_ports}"
-    
+                from .GaudiDevices import MlxDevice
+                self._other_devices[pci_bus_id] = MlxDevice(pci_bus_id, device_info)
+
+        print(f"Found {len(self._gaudi_devices)} Gaudi devices and {len(self._other_devices)} other devices")
+        return {"gaudi": self._gaudi_devices, "other": self._other_devices}
+
     def _get_vendor_id(self, pci_path: str) -> Optional[str]:
         """
         Extract the vendor ID from a PCI device path.
@@ -179,13 +106,12 @@ class InfinibandDevices:
             current_path = parent
         return None
         
-    def _gather_port_info(self, device_path: str, include_details: bool) -> List[Dict[str, Any]]:
+    def _gather_port_info(self, device_path: str) -> List[Dict[str, Any]]:
         """
         Gather information about ports for an InfiniBand device.
         
         Args:
             device_path: The path to the device
-            include_details: Whether to include detailed information
             
         Returns:
             List[Dict[str, Any]]: List of port information dictionaries
@@ -222,278 +148,67 @@ class InfinibandDevices:
                 "link_layer": link_layer
             }
             
-            # Optionally add more details
-            if include_details:
-                self._add_port_details(port_path, port_info)
-                
+           
             ports.append(port_info)
             
         return ports
-    
-    def _add_port_details(self, port_path: str, port_info: Dict[str, Any]):
-        """
-        Add detailed information about a port to the port_info dictionary.
-        
-        Args:
-            port_path: The path to the port
-            port_info: The dictionary to add information to
-        """
-        # Get GID information
-        gid_path = os.path.join(port_path, "gids", "0")
-        if os.path.exists(gid_path):
-            with open(gid_path, 'r') as f:
-                port_info["gid"] = f.read().strip()
-                
-        # Get LID information
-        lid_path = os.path.join(port_path, "lid")
-        if os.path.exists(lid_path):
-            with open(lid_path, 'r') as f:
-                port_info["lid"] = f.read().strip()
-                
-        # Get rate information
-        rate_path = os.path.join(port_path, "rate")
-        if os.path.exists(rate_path):
-            with open(rate_path, 'r') as f:
-                port_info["rate"] = f.read().strip()
-    
-    def _add_device_details(self, device_path: str, device_info: Dict[str, Any]):
-        """
-        Add detailed information about a device to the device_info dictionary.
-        
-        Args:
-            device_path: The path to the device
-            device_info: The dictionary to add information to
-        """
-        # Get node GUID
-        node_guid_path = os.path.join(device_path, "node_guid")
-        if os.path.exists(node_guid_path):
-            with open(node_guid_path, 'r') as f:
-                device_info["node_guid"] = f.read().strip()
-                
-        # Get device type
-        device_type_path = os.path.join(device_path, "node_type")
-        if os.path.exists(device_type_path):
-            with open(device_type_path, 'r') as f:
-                device_info["type"] = f.read().strip()
-                
-        # Get RDMA protocol version
-        device_info["rdma_protocol_version"] = self._get_rdma_protocol_version(device_path)
-    
-    def _get_rdma_protocol_version(self, device_path: str) -> str:
-        """
-        Determine the RDMA protocol version supported by the device.
-        
-        Args:
-            device_path: The path to the InfiniBand device
-            
-        Returns:
-            str: RDMA protocol version ("v1", "v2", "unknown")
-        """
-        # Try to get firmware version, which can indicate protocol capabilities
-        fw_ver_path = os.path.join(device_path, "fw_ver")
-        fw_ver = None
-        if os.path.exists(fw_ver_path):
-            try:
-                with open(fw_ver_path, 'r') as f:
-                    fw_ver = f.read().strip()
-            except Exception:
-                pass
-        
-        # Get device name to check device type
-        device_name = os.path.basename(device_path)
-        
-        # Check if ibv_devinfo is available for more details
-        device_info = None
-        try:
-            import subprocess
-            cmd = ["ibv_devinfo", "-d", device_name]
-            result = subprocess.run(cmd, check=True, capture_output=True, text=True)
-            device_info = result.stdout
-        except Exception:
-            pass
-            
-        # Try to determine RDMA version based on collected information
-        rdma_version = "unknown"
-        
-        # Get real path to find PCI information
-        real_path = os.path.realpath(device_path)
-        
-        # ConnectX-4 and newer generally support RDMAv2
-        # ConnectX-3 supports RDMAv1
-        # Gaudi HLS devices support RDMAv2
-        if any(x in device_name for x in ["hbl_", "hls_"]):
-            # Gaudi/Habana devices support RDMAv2
-            rdma_version = "v2"
-        elif "mlx5" in device_name or "mlx6" in device_name:
-            # ConnectX-4/5/6 support RDMAv2
-            rdma_version = "v2"
-        elif "mlx4" in device_name:
-            # ConnectX-3 generally supports RDMAv1 
-            rdma_version = "v1"
-        elif device_info:
-            # Try to determine from ibv_devinfo output
-            if "ConnectX-4" in device_info or "ConnectX-5" in device_info or "ConnectX-6" in device_info:
-                rdma_version = "v2"
-            elif "ConnectX-3" in device_info:
-                rdma_version = "v1"
-        
-        # If we still don't know, try to check firmware version or vendor_part_id
-        if rdma_version == "unknown" and fw_ver:
-            # Higher firmware versions generally indicate newer hardware with RDMAv2
-            try:
-                # ConnectX-4 and newer firmware typically starts with 12.x, 14.x, or 16.x
-                if fw_ver.startswith(("12.", "14.", "16.")):
-                    rdma_version = "v2"
-                # ConnectX-3 firmware typically starts with 2.x
-                elif fw_ver.startswith("2."):
-                    rdma_version = "v1"
-            except Exception:
-                pass
-
-        return rdma_version
-    
-    def check_rdma_compatibility(self, src_device_bus_id: str, dst_device_bus_id: str, 
-                           ib_devices: Optional[Dict[str, Dict[str, Any]]] = None) -> Tuple[bool, str]:
-        """
-        Check if two devices have compatible RDMA protocol versions.
-        
-        Args:
-            src_device_bus_id: Source device PCI bus ID
-            dst_device_bus_id: Destination device PCI bus ID
-            ib_devices: Dictionary of InfiniBand devices with information. If None, will get devices
-            
-        Returns:
-            Tuple of (is_compatible, status_message)
-        """
-        if ib_devices is None:
-            # Get all IB devices with details
-            all_devices = self.get_infiniband_devices(include_details=True)
-            ib_devices = {}
-            
-            # Process Gaudi devices
-            for device in all_devices.get("gaudi", []):
-                if "pci_bus_id" in device and device["pci_bus_id"] != "Unknown":
-                    ib_devices[device["pci_bus_id"]] = device
-                    
-            # Process other devices
-            for device in all_devices.get("other", []):
-                if "pci_bus_id" in device and device["pci_bus_id"] != "Unknown":
-                    ib_devices[device["pci_bus_id"]] = device
-        
-        if not ib_devices:
-            return False, "No InfiniBand device information available"
-            
-        src_device = ib_devices.get(src_device_bus_id)
-        if not src_device:
-            return False, f"Source device with bus ID {src_device_bus_id} not found in InfiniBand devices"
-            
-        dst_device = ib_devices.get(dst_device_bus_id)
-        if not dst_device:
-            return False, f"Destination device with bus ID {dst_device_bus_id} not found in InfiniBand devices"
-        
-        # Get RDMA protocol versions
-        src_rdma_ver = src_device.get("rdma_protocol_version", "unknown")
-        dst_rdma_ver = dst_device.get("rdma_protocol_version", "unknown")
-        
-        # Only v2 devices can connect to v2, v1 can connect to v1 or v2 (backward compatibility)
-        if src_rdma_ver == "unknown" or dst_rdma_ver == "unknown":
-            return True, f"RDMA protocol versions: Source={src_rdma_ver}, Destination={dst_rdma_ver} (assuming compatible)"
-        
-        if src_rdma_ver == "v2" and dst_rdma_ver == "v1":
-            return False, f"RDMA protocol mismatch: Source={src_rdma_ver}, Destination={dst_rdma_ver} - v2 cannot connect to v1"
-            
-        return True, f"RDMA protocols compatible: Source={src_rdma_ver}, Destination={dst_rdma_ver}"
-    
-    def clear_cache(self):
-        """
-        Clear the device information cache.
-        Call this method when you want to ensure fresh device data.
-        """
-        self._devices_cache = None
-        
-    def print_infiniband_info(self, detailed: bool = False):
-        """
-        Print information about discovered InfiniBand devices and their active ports.
-        
-        Args:
-            detailed: If True, print detailed information about each port
-        """
-        devices = self.get_infiniband_devices(include_details=detailed)
-        
-        if not devices["gaudi"] and not devices["other"]:
-            print("No InfiniBand devices found")
-            return
-        
-        print("InfiniBand Devices:")
-        print("===================")
-        
-        total_devices = len(devices["gaudi"]) + len(devices["other"])
-        total_active_ports = 0
-        
-        # Print Gaudi devices first, then other devices
-        for device_category in ["gaudi", "other"]:
-            for device_info in devices[device_category]:
-                device_name = device_info.get("name", "Unknown")
-                pci_bus_id = device_info.get("pci_bus_id", "Unknown")
-                
-                print(f"Device: {device_name}")
-                print(f"  PCI Bus ID: {pci_bus_id}")
-                print(f"  Category: {'Gaudi' if device_category == 'gaudi' else 'Other'}")
-                
-                if detailed:
-                    if "node_guid" in device_info:
-                        print(f"  Node GUID: {device_info['node_guid']}")
-                    if "type" in device_info:
-                        print(f"  Node Type: {device_info['type']}")
-                    if "rdma_protocol_version" in device_info:
-                        print(f"  RDMA Protocol: {device_info['rdma_protocol_version']}")
-                    
-                    print("  Ports:")
-                    ports = device_info.get("ports", [])
-                    for port_info in sorted(ports, key=lambda p: p["port_num"]):
-                        port_num = port_info.get("port_num", "Unknown")
-                        is_active = port_info.get("is_active", False)
-                        if is_active:
-                            total_active_ports += 1
-                            
-                        state = port_info.get("state", "Unknown")
-                        link_layer = port_info.get("link_layer", "Unknown")
-                        rate = port_info.get("rate", "Unknown")
-                        
-                        status = "ACTIVE" if is_active else "INACTIVE"
-                        print(f"    Port {port_num}: {status}, State: {state}, Link: {link_layer}, Rate: {rate}")
-                        
-                        if "lid" in port_info:
-                            print(f"      LID: {port_info['lid']}")
-                        if "gid" in port_info and port_info["gid"] != "0000:0000:0000:0000:0000:0000:0000:0000":
-                            print(f"      GID: {port_info['gid']}")
-                else:
-                    active_ports = [p["port_num"] for p in device_info.get("ports", []) if p.get("is_active", False)]
-                    if active_ports:
-                        print(f"  Active ports: {', '.join(map(str, active_ports))}")
-                        total_active_ports += len(active_ports)
-                    else:
-                        print("  No active ports")
-                
-                print()
-        
-        print("\nTotal devices found:", total_devices)
-        print("Total active ports:", total_active_ports)
 
 
 if __name__ == "__main__":
-    import argparse
-    
-    parser = argparse.ArgumentParser(description="InfiniBand device scanner")
-    parser.add_argument("-d", "--detailed", action="store_true", help="Show detailed port information")
-    parser.add_argument("-j", "--json", action="store_true", help="Output in JSON format")
-    args = parser.parse_args()
-    
-    # Create an instance of InfinibandDevices
+    # Example usage
+    from .GaudiDevices import GaudiDevices
+    gaudi_devices = GaudiDevices()
     infiniband_devices = InfinibandDevices()
     
-    if args.json:
-        devices = infiniband_devices.get_infiniband_devices(include_details=args.detailed)
-        print(json.dumps(devices, indent=2))
-    else:
-        infiniband_devices.print_infiniband_info(detailed=args.detailed)
+    # Scan for InfiniBand devices
+    devices_info = infiniband_devices.get_infiniband_devices(gaudi_devices)
+    
+    print("Gaudi Devices:")
+    for bus_id, device in devices_info["gaudi"].items():
+        print(f"Bus ID: {bus_id}, Info: {device.get_device_info()}")
+    
+    print("\nOther InfiniBand Devices:")
+    for bus_id, device in devices_info["other"].items():
+        print(f"Bus ID: {bus_id}, Info: {device.get_device_info()}")
+
+    # --- Test functions ---
+    def test_scan_devices():
+        print("\nRunning test_scan_devices...")
+        from .GaudiDevices import GaudiDevices
+        gaudi_devices = GaudiDevices()
+        infiniband_devices = InfinibandDevices()
+        devices_info = infiniband_devices.get_infiniband_devices(gaudi_devices)
+        assert isinstance(devices_info, dict)
+        print("test_scan_devices passed.")
+
+    def test_gather_port_info():
+        print("\nRunning test_gather_port_info...")
+        infiniband_devices = InfinibandDevices()
+        # Use a dummy device path if available
+        if os.path.exists(infiniband_devices.ib_path):
+            device_dirs = glob.glob(os.path.join(infiniband_devices.ib_path, "*"))
+            if device_dirs:
+                ports = infiniband_devices._gather_port_info(device_dirs[0])
+                assert isinstance(ports, list)
+                print("test_gather_port_info passed.")
+            else:
+                print("No InfiniBand devices found for port info test.")
+        else:
+            print("InfiniBand path does not exist for port info test.")
+
+
+if __name__ == "__main__":
+    # Example usage
+    gaudi_devices = GaudiDevices()
+    infiniband_devices = InfinibandDevices()
+    
+    # Scan for InfiniBand devices
+    devices_info = infiniband_devices.get_infiniband_devices(gaudi_devices)
+    
+    print("Gaudi Devices:")
+    for bus_id, device in devices_info["gaudi"].items():
+        print(f"Bus ID: {bus_id}, Info: {device.get_device_info()}")
+    
+    print("\nOther InfiniBand Devices:")
+    for bus_id, device in devices_info["other"].items():
+        print(f"Bus ID: {bus_id}, Info: {device.get_device_info()}")

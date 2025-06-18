@@ -46,13 +46,18 @@ class GaudiRouting:
                 - destination_module_id: ID of the destination module
                 - destination_port: Port number on the destination module
         """
+        
+        if self.connections:
+            print("Connectivity already parsed. Returning cached connections.")
+            return self.connections
+        
         csv_path = csv_path or self.connectivity_file
         
         if not os.path.exists(csv_path):
             print(f"Warning: Connectivity file '{csv_path}' does not exist.")
             return []
-        
-        connections = []
+       
+        connections = [] 
         valid_connections = 0
         total_lines = 0
         
@@ -101,99 +106,25 @@ class GaudiRouting:
         self.connections = connections
         return connections
     
-    def get_module_connections(self, connections: Optional[List[Dict[str, int]]] = None, 
-                              module_id: Optional[int] = None) -> Dict[int, Dict[str, List[Tuple[int, int, int]]]]:
+    def get_connections(self) -> List[Dict[str, int]]:
         """
-        Organize connections by module.
-        
-        Args:
-            connections: List of connection dictionaries. If None, uses the connections parsed previously.
-            module_id: Optional module ID to filter by
-            
-        Returns:
-            Dictionary with module IDs as keys, and dictionaries with 'outgoing' and 'incoming'
-            lists as values.
-        """
-        connections = connections or self.connections
-        modules = {}
-        
-        for conn in connections:
-            src_module = conn["source"]["module_id"]
-            src_port = conn["source"]["port"]
-            dst_module = conn["destination"]["module_id"]
-            dst_port = conn["destination"]["port"]
-            
-            # Filter by module ID if specified
-            if module_id is not None and src_module != module_id and dst_module != module_id:
-                continue
-            
-            # Initialize module entries if they don't exist
-            if src_module not in modules:
-                modules[src_module] = {"outgoing": [], "incoming": []}
-            if dst_module not in modules:
-                modules[dst_module] = {"outgoing": [], "incoming": []}
-            
-            # Add to outgoing and incoming lists
-            modules[src_module]["outgoing"].append((dst_module, src_port, dst_port))
-            modules[dst_module]["incoming"].append((src_module, dst_port, src_port))
-        
-        return modules
-    
-    def match_devices_to_connections(self, devices: Dict[str, Dict[str, Any]]) -> List[Dict[str, Any]]:
-        """
-        Match the actual devices to the connectivity information.
-        
-        This function takes the available devices (with module IDs) and matches them
-        with the connections defined in the connectivity file, ensuring that only
-        connections with both devices available are included.
-        
-        Args:
-            devices: Dictionary of devices keyed by bus ID with device information
-                    Each device should have a 'module_id' field
+        Get the parsed connections.
         
         Returns:
-            List of dictionaries containing:
-                - source: Dictionary with module_id and port
-                - destination: Dictionary with module_id and port
-                - source_device_id: Bus ID of the source device
-                - dest_device_id: Bus ID of the destination device
+            List of dictionaries containing connection information.
         """
         if not self.connections:
-            print("No connections defined. Call parse_connectivity_file() first.")
-            return []
-        
-        # Create a mapping from module ID to device bus ID
-        module_to_bus_id = {}
-        for bus_id, device in devices.items():
-            if 'module_id' in device and device['module_id'] is not None:
-                module_to_bus_id[device['module_id']] = bus_id
-        
-        # Match connections to actual devices
-        matched_connections = []
-        for conn in self.connections:
-            src_module_id = conn['source']['module_id']
-            src_port = conn['source']['port']
-            dst_module_id = conn['destination']['module_id']
-            dst_port = conn['destination']['port']
-            
-            # Skip connections between same module
-            if src_module_id == dst_module_id:
-                continue
-            
-            # Check if we have both source and destination devices
-            if src_module_id in module_to_bus_id and dst_module_id in module_to_bus_id:
-                matched_conn = {
-                    'source': {
-                        'module_id': src_module_id,
-                        'port': src_port
-                    },
-                    'destination': {
-                        'module_id': dst_module_id,
-                        'port': dst_port
-                    },
-                    'source_device_id': module_to_bus_id[src_module_id],
-                    'dest_device_id': module_to_bus_id[dst_module_id]
-                }
-                matched_connections.append(matched_conn)
-        
-        return matched_connections
+            print("No connections parsed yet. Parsing connectivity file...")
+            self.parse_connectivity_file()
+        return self.connections
+
+if __name__ == "__main__":
+    # Test program for GaudiRouting
+    print("Testing GaudiRouting connectivity parser...")
+    routing = GaudiRouting()
+    connections = routing.parse_connectivity_file()
+    print(f"Total connections parsed: {len(connections)}")
+    # Print first 3 connections as a sample
+    for idx, conn in enumerate(connections[:3]):
+        print(f"Connection {idx+1}: {conn}")
+

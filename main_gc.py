@@ -61,6 +61,7 @@ def connection_perftest(source, destination):
             "-d", src_ib_name,
             "-i", str(src_port),
             "-g", "0",  # Using index 0 as default
+            "&"
             #"--test-type", "pp"  # Ping-Pong test
         ]
         
@@ -70,8 +71,8 @@ def connection_perftest(source, destination):
                                          stderr=subprocess.PIPE)
         
         # Give the server a moment to start
-        import time
-        time.sleep(5)
+        #import time
+        #time.sleep(5)
         
         # Run perf_test as client
         client_cmd = [
