@@ -4,7 +4,7 @@ A tool for reporting connectivity between Gaudi devices in an HLS2 system based 
 
 ## Overview
 
-This tool provides utilities to discover Gaudi devices on a system, parse routing information from CSV files, and generate reports about which devices can connect to each other. It supports outputting connection data in both human-readable and JSON formats.
+This tool provides utilities to discover Gaudi devices on a system, parse routing information from CSV files, and generate reports about which devices can connect to each other. It supports outputting connection data in both human-readable and JSON formats. All connection outputs now include port information for both source and destination devices.
 
 ## Directory Structure
 
@@ -49,8 +49,7 @@ python3 main_gc.py [options]
 - `-j, --json`: Output results in JSON format
 - `-v, --verify`: Verify connections have active ports
 - `-o, --output FILE`: Write output to a file (JSON format)
-- `-p, --perf`: Run performance tests on connections
-- `--perf-output FILE`: Output file for performance test results (JSON format)
+- `-p, --perf`: Run performance tests on connections (prints perf_test command lines as a dry run if GIDs are missing or perf_test is not executable)
 ### Examples
 
 Show device summary:
@@ -83,9 +82,10 @@ Run performance tests on connections:
 ./run_gc.sh -r -p
 ```
 
+
 Run performance tests and save results to a file:
 ```bash
-./run_gc.sh -r -p --perf-output perf_results.json
+./run_gc.sh -r -p -o perf_results.json
 ```
 
 ## Connectivity File Format
@@ -117,6 +117,7 @@ Example:
 - Verification of active ports on connections
 - Class-based structure for better code organization and reuse
 
+
 ## Performance Testing
 
 The tool includes functionality to run performance tests between connected Gaudi devices using the Habana `perf_test` utility. Performance testing helps measure bandwidth, latency, and other metrics between Gaudi devices.
@@ -124,14 +125,11 @@ The tool includes functionality to run performance tests between connected Gaudi
 ### How Performance Testing Works
 
 1. For each connection discovered, the tool:
-   - Extracts source and destination device information including GIDs and port numbers
-   - Runs the `/opt/habanalabs/perf-test/perf_test` utility in server mode on the source device
-   - Runs the utility in client mode on the destination device
-   - Collects and processes the results
+   - Extracts source and destination device information including GIDs and port numbers (all outputs now include port info)
+   - If GIDs are missing or the `perf_test` utility is not found/executable, the tool prints the server and client perf_test command lines as a dry run for each connection, and skips execution.
+   - Otherwise, runs the `/opt/habanalabs/perf-test/perf_test` utility in server mode on the source device and client mode on the destination device, collecting and processing the results.
 
-2. The performance test runs for approximately 5 seconds per connection.
-
-3. After all tests complete, a summary is displayed showing:
+2. After all tests complete, a summary is displayed showing:
    - Total number of connections tested
    - Number of successful tests
    - Number of failed tests
@@ -139,11 +137,11 @@ The tool includes functionality to run performance tests between connected Gaudi
 
 ### Performance Test Output
 
-When using the `--perf-output` option, the tool saves detailed performance test results in JSON format.
+When using the `-o` or `--output` option with `-p`, the tool saves detailed performance test results in JSON format.
 
 ### Requirements
 
-- The `/opt/habanalabs/perf-test/perf_test` utility must be installed and executable
+- The `/opt/habanalabs/perf-test/perf_test` utility must be installed and executable for real performance tests to run
 - Running performance tests requires appropriate permissions to access the devices
 
 ## Official Connectivity Files

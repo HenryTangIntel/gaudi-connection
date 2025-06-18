@@ -10,30 +10,27 @@ def connection(gaudidevices: GaudiDevices, connectivity: GaudiRouting):
     # Get the connectivity information
     connections = connectivity.get_connections()
     
-    # Fix: connectionpairlist should be a list, not a tuple type annotation
     connectionpairlist = []
-
     # Iterate through each connection and establish it
     for connection in connections:
         source = connection['source']
         destination = connection['destination']
-        
         src_device = gaudidevices.get_device_by_module_id(source['module_id'])
         dst_device = gaudidevices.get_device_by_module_id(destination['module_id'])
-        
+        src_port = source['port']
+        dst_port = destination['port']
         if src_device and dst_device:
-            print(f"Connecting {src_device.bus_id} to {dst_device.bus_id} on ports {source['port']} -> {destination['port']}")
+            print(f"Connecting {src_device.bus_id} to {dst_device.bus_id} on ports {src_port} -> {dst_port}")
         else:
             print(f"Error: Device not found for connection {connection}")
-        connectionpairlist.append((src_device, dst_device))
-   
+        connectionpairlist.append((src_device, src_port, dst_device, dst_port))
     return connectionpairlist
 
 def print_connection_pairs(con):
     print("Connection pairs established:")
-    for src, dst in con:
+    for src, src_port, dst, dst_port in con:
         if src and dst:
-            print(f"  {src} <-> {dst}")
+            print(f"  {src} (port {src_port}) <-> {dst} (port {dst_port})")
         else:
             print("  Incomplete connection due to missing device information.")
     print(f"All connections {len(con)} processed.")
