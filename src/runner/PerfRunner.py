@@ -159,7 +159,7 @@ class PerfRunner:
             self.server_thread.start()
             
             # Give server time to start listening
-            time.sleep(2)
+            time.sleep(5)
             return True
             
         except Exception as e:
@@ -203,7 +203,7 @@ class PerfRunner:
             if self.client_process and self.client_process.poll() is not None:
                 print(f"\n[{datetime.now()}] Client process completed with return code: {self.client_process.returncode}")
                 # Give server a moment to complete
-                time.sleep(2)
+                time.sleep(5)
                 break
                 
             time.sleep(1)
