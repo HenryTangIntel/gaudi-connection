@@ -4,6 +4,7 @@ import argparse
 import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
 from connection import GaudiDevices, GaudiRouting, connection, print_connection_pairs, print_gaudi_device_mapping, verify_connections_vs_csv
+from runner.PerfRunner import PerfRunner
 
 
 def connection_perftest(src_device, dst_device):
@@ -39,22 +40,25 @@ def RealRunConnection(connections):
     Returns:
         Dict with summary and detailed results for each connection
     """
-    import subprocess
-    import os
-    import time
     results = []
     success_count = 0
     failure_count = 0
     error_count = 0
     print(f"\nRunning performance tests on {len(connections)} connections...")
+    
+    # Create a single PerfRunner instance that will be reused for all connections
+    perf_runner = PerfRunner(log_dir="connection_test_logs")
+    
     for i, (src, src_port, dst, dst_port) in enumerate(connections):
         print(f"\nConnection {i+1}/{len(connections)}")
         if not src or not dst:
             print("Error: Connection missing source or destination device")
             error_count += 1
             continue
+        
         src_ib_name = getattr(src, 'ib_name', None)
         dst_ib_name = getattr(dst, 'ib_name', None)
+        
         # Try to get GID from device.ports dict if available
         def get_gid(device, port):
             if hasattr(device, 'ports') and isinstance(device.ports, dict):
@@ -62,30 +66,61 @@ def RealRunConnection(connections):
                 if port_info:
                     return port_info.get('gid')
             return getattr(device, 'gid', None)
+        
         src_gid = get_gid(src, src_port)
         dst_gid = get_gid(dst, dst_port)
+        
         print(f"Testing connection from {src_ib_name}:port{src_port} to {dst_ib_name}:port{dst_port}")
+        
         if not src_gid or not dst_gid:
             print(f"Warning: Missing GIDs for connection. Source GID: {src_gid}, Destination GID: {dst_gid}")
+        
+        # Check if perf_test exists
         perf_test = "/opt/habanalabs/perf-test/perf_test"
         if not os.path.exists(perf_test) or not os.access(perf_test, os.X_OK):
             print(f"Error: perf_test utility not found at {perf_test} or not executable")
             error_count += 1
             continue
+        
+        # Configure PerfRunner for this specific connection
+        perf_runner.server_ib_dev = src_ib_name
+        perf_runner.server_ib_port = src_port
+        perf_runner.server_gid_idx = 0  # Always use GID index 0
+        perf_runner.client_ib_dev = dst_ib_name
+        perf_runner.client_ib_port = dst_port
+        perf_runner.client_gid_idx = 0  # Always use GID index 0
+        
+        # Use localhost IP for testing, in a real scenario this might be a remote host
+        perf_runner.server_host = '127.0.0.1'
+        
+        # Generate a unique log filename based on the connection
+        log_name = f"test_{src_ib_name}_p{src_port}_to_{dst_ib_name}_p{dst_port}_{perf_runner.get_timestamp()}"
+        perf_runner.log_dir = os.path.join("connection_test_logs")
+        
         try:
-            server_cmd = [perf_test, "-d", src_ib_name, "-i", str(src_port), "-g", "0"]
-            client_cmd = [perf_test, "-d", dst_ib_name, "-i", str(dst_port), "-g", "0", "127.0.0.1"]
-            print(f"[DRY RUN] Server command: {' '.join(server_cmd)}")
-            print(f"[DRY RUN] Client command: {' '.join(client_cmd)}")
-            # Skip execution, just print commands
+            # Log the commands that will be executed (similar to dry run but now we'll actually run them)
+            server_cmd = perf_runner.build_command_args(is_server=True)
+            client_cmd = perf_runner.build_command_args(is_server=False)
+            print(f"Server command: {' '.join(server_cmd)}")
+            print(f"Client command: {' '.join(client_cmd)}")
+            
+            # Run the actual test
+            test_success = perf_runner.run()
+            
+            # Record results
+            status = 'success' if test_success else 'failed'
+            if test_success:
+                success_count += 1
+            else:
+                failure_count += 1
+                
             result = {
-                'status': 'dry-run',
-                'server_cmd': ' '.join(server_cmd),
-                'client_cmd': ' '.join(client_cmd),
+                'status': status,
                 'source': f"{src_ib_name}:port{src_port} (GID: {src_gid})",
                 'destination': f"{dst_ib_name}:port{dst_port} (GID: {dst_gid})"
             }
             results.append(result)
+            
         except Exception as e:
             print(f"Exception during performance test: {str(e)}")
             error_count += 1
@@ -95,6 +130,7 @@ def RealRunConnection(connections):
                 'source': f"{src_ib_name}:port{src_port}",
                 'destination': f"{dst_ib_name}:port{dst_port}"
             })
+    
     print("\n" + "="*50)
     print("PERFORMANCE TEST SUMMARY")
     print("="*50)
