@@ -156,7 +156,7 @@ def main():
     Parses command line arguments and executes appropriate actions.
     """
     parser = argparse.ArgumentParser(description="Gaudi Connection Tool (new)")
-    parser.add_argument("-c", "--connectivity", default="connectivity_HLS2.csv", help="Path to connectivity CSV file")
+    parser.add_argument("-c", "--connectivity", default="/home/ytang/gc/gaudi-connection/connectivity_HLS2.csv", help="Path to connectivity CSV file")
     parser.add_argument("-d", "--devices", action="store_true", help="Show device summary")
     parser.add_argument("-r", "--routes", action="store_true", help="Show routing connections")
     parser.add_argument("-j", "--json", action="store_true", help="Output connection pairs in JSON format")

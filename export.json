@@ -1,0 +1,2694 @@
+Successfully parsed 168 connections from 175 lines in '/opt/habanalabs/perf-test/scale_up_tool/internal_data/connectivity_HLS2.csv'
+Found 8 Gaudi devices and 2 other devices
+
+Total connections found: 168
+[
+  {
+    "source": {
+      "module_id": 0,
+      "port": 7,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 4,
+      "port": 7,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 0,
+      "port": 6,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 4,
+      "port": 6,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 0,
+      "port": 9,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "fe80:0000:0000:0000:b2fd:0bff:fed6:11d1"
+    },
+    "destination": {
+      "module_id": 4,
+      "port": 9,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "fe80:0000:0000:0000:b2fd:0bff:fed6:1021"
+    }
+  },
+  {
+    "source": {
+      "module_id": 0,
+      "port": 2,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 7,
+      "port": 2,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 0,
+      "port": 5,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 7,
+      "port": 5,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 0,
+      "port": 4,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 7,
+      "port": 4,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 0,
+      "port": 1,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 3,
+      "port": 1,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 0,
+      "port": 0,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": null
+    },
+    "destination": {
+      "module_id": 3,
+      "port": 0,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": null
+    }
+  },
+  {
+    "source": {
+      "module_id": 0,
+      "port": 3,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 3,
+      "port": 3,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 0,
+      "port": 12,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 2,
+      "port": 18,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 0,
+      "port": 11,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 2,
+      "port": 17,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 0,
+      "port": 10,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 2,
+      "port": 16,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 0,
+      "port": 15,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 1,
+      "port": 15,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 0,
+      "port": 14,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 1,
+      "port": 14,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 0,
+      "port": 13,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 1,
+      "port": 13,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 0,
+      "port": 18,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 6,
+      "port": 18,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 0,
+      "port": 17,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 6,
+      "port": 17,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 0,
+      "port": 16,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 6,
+      "port": 16,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 0,
+      "port": 21,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 5,
+      "port": 21,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 0,
+      "port": 20,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 5,
+      "port": 20,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 0,
+      "port": 19,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 5,
+      "port": 19,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 1,
+      "port": 7,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 5,
+      "port": 7,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 1,
+      "port": 6,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 5,
+      "port": 6,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 1,
+      "port": 9,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "fe80:0000:0000:0000:b2fd:0bff:fed6:1141"
+    },
+    "destination": {
+      "module_id": 5,
+      "port": 9,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "fe80:0000:0000:0000:b2fd:0bff:fed6:0b41"
+    }
+  },
+  {
+    "source": {
+      "module_id": 1,
+      "port": 2,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 6,
+      "port": 2,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 1,
+      "port": 5,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 6,
+      "port": 5,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 1,
+      "port": 4,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 6,
+      "port": 4,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 1,
+      "port": 1,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 2,
+      "port": 1,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 1,
+      "port": 0,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": null
+    },
+    "destination": {
+      "module_id": 2,
+      "port": 0,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": null
+    }
+  },
+  {
+    "source": {
+      "module_id": 1,
+      "port": 3,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 2,
+      "port": 3,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 1,
+      "port": 12,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 7,
+      "port": 12,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 1,
+      "port": 11,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 7,
+      "port": 11,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 1,
+      "port": 10,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 7,
+      "port": 10,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 1,
+      "port": 15,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 0,
+      "port": 15,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 1,
+      "port": 14,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 0,
+      "port": 14,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 1,
+      "port": 13,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 0,
+      "port": 13,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 1,
+      "port": 18,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 3,
+      "port": 18,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 1,
+      "port": 17,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 3,
+      "port": 17,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 1,
+      "port": 16,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 3,
+      "port": 16,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 1,
+      "port": 21,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 4,
+      "port": 21,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 1,
+      "port": 20,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 4,
+      "port": 20,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 1,
+      "port": 19,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 4,
+      "port": 19,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 2,
+      "port": 7,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 6,
+      "port": 7,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 2,
+      "port": 6,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 6,
+      "port": 6,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 2,
+      "port": 9,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "fe80:0000:0000:0000:b2fd:0bff:fed6:12c1"
+    },
+    "destination": {
+      "module_id": 6,
+      "port": 9,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "fe80:0000:0000:0000:b2fd:0bff:fed6:fcf9"
+    }
+  },
+  {
+    "source": {
+      "module_id": 2,
+      "port": 2,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 5,
+      "port": 2,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 2,
+      "port": 5,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 5,
+      "port": 5,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 2,
+      "port": 4,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 5,
+      "port": 4,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 2,
+      "port": 1,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 1,
+      "port": 1,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 2,
+      "port": 0,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": null
+    },
+    "destination": {
+      "module_id": 1,
+      "port": 0,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": null
+    }
+  },
+  {
+    "source": {
+      "module_id": 2,
+      "port": 3,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 1,
+      "port": 3,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 2,
+      "port": 12,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 3,
+      "port": 12,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 2,
+      "port": 11,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 3,
+      "port": 11,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 2,
+      "port": 10,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 3,
+      "port": 10,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 2,
+      "port": 15,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 4,
+      "port": 15,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 2,
+      "port": 14,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 4,
+      "port": 14,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 2,
+      "port": 13,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 4,
+      "port": 13,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 2,
+      "port": 18,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 0,
+      "port": 12,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 2,
+      "port": 17,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 0,
+      "port": 11,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 2,
+      "port": 16,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 0,
+      "port": 10,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 2,
+      "port": 21,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 7,
+      "port": 21,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 2,
+      "port": 20,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 7,
+      "port": 20,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 2,
+      "port": 19,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 7,
+      "port": 19,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 3,
+      "port": 7,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 7,
+      "port": 7,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 3,
+      "port": 6,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 7,
+      "port": 6,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 3,
+      "port": 9,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "fe80:0000:0000:0000:b2fd:0bff:fed6:0f91"
+    },
+    "destination": {
+      "module_id": 7,
+      "port": 9,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "fe80:0000:0000:0000:b2fd:0bff:fed6:1ce1"
+    }
+  },
+  {
+    "source": {
+      "module_id": 3,
+      "port": 2,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 4,
+      "port": 2,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 3,
+      "port": 5,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 4,
+      "port": 5,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 3,
+      "port": 4,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 4,
+      "port": 4,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 3,
+      "port": 1,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 0,
+      "port": 1,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 3,
+      "port": 0,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": null
+    },
+    "destination": {
+      "module_id": 0,
+      "port": 0,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": null
+    }
+  },
+  {
+    "source": {
+      "module_id": 3,
+      "port": 3,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 0,
+      "port": 3,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 3,
+      "port": 12,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 2,
+      "port": 12,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 3,
+      "port": 11,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 2,
+      "port": 11,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 3,
+      "port": 10,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 2,
+      "port": 10,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 3,
+      "port": 15,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 5,
+      "port": 15,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 3,
+      "port": 14,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 5,
+      "port": 14,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 3,
+      "port": 13,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 5,
+      "port": 13,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 3,
+      "port": 18,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 1,
+      "port": 18,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 3,
+      "port": 17,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 1,
+      "port": 17,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 3,
+      "port": 16,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 1,
+      "port": 16,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 3,
+      "port": 21,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 6,
+      "port": 21,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 3,
+      "port": 20,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 6,
+      "port": 20,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 3,
+      "port": 19,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 6,
+      "port": 19,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 4,
+      "port": 7,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 0,
+      "port": 7,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 4,
+      "port": 6,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 0,
+      "port": 6,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 4,
+      "port": 9,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "fe80:0000:0000:0000:b2fd:0bff:fed6:1021"
+    },
+    "destination": {
+      "module_id": 0,
+      "port": 9,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "fe80:0000:0000:0000:b2fd:0bff:fed6:11d1"
+    }
+  },
+  {
+    "source": {
+      "module_id": 4,
+      "port": 2,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 3,
+      "port": 2,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 4,
+      "port": 5,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 3,
+      "port": 5,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 4,
+      "port": 4,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 3,
+      "port": 4,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 4,
+      "port": 1,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 7,
+      "port": 1,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 4,
+      "port": 0,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": null
+    },
+    "destination": {
+      "module_id": 7,
+      "port": 0,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": null
+    }
+  },
+  {
+    "source": {
+      "module_id": 4,
+      "port": 3,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 7,
+      "port": 3,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 4,
+      "port": 12,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 5,
+      "port": 12,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 4,
+      "port": 11,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 5,
+      "port": 11,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 4,
+      "port": 10,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 5,
+      "port": 10,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 4,
+      "port": 15,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 2,
+      "port": 15,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 4,
+      "port": 14,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 2,
+      "port": 14,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 4,
+      "port": 13,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 2,
+      "port": 13,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 4,
+      "port": 18,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 6,
+      "port": 12,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 4,
+      "port": 17,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 6,
+      "port": 11,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 4,
+      "port": 16,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 6,
+      "port": 10,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 4,
+      "port": 21,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 1,
+      "port": 21,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 4,
+      "port": 20,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 1,
+      "port": 20,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 4,
+      "port": 19,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 1,
+      "port": 19,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 5,
+      "port": 7,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 1,
+      "port": 7,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 5,
+      "port": 6,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 1,
+      "port": 6,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 5,
+      "port": 9,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "fe80:0000:0000:0000:b2fd:0bff:fed6:0b41"
+    },
+    "destination": {
+      "module_id": 1,
+      "port": 9,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "fe80:0000:0000:0000:b2fd:0bff:fed6:1141"
+    }
+  },
+  {
+    "source": {
+      "module_id": 5,
+      "port": 2,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 2,
+      "port": 2,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 5,
+      "port": 5,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 2,
+      "port": 5,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 5,
+      "port": 4,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 2,
+      "port": 4,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 5,
+      "port": 1,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 6,
+      "port": 1,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 5,
+      "port": 0,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": null
+    },
+    "destination": {
+      "module_id": 6,
+      "port": 0,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": null
+    }
+  },
+  {
+    "source": {
+      "module_id": 5,
+      "port": 3,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 6,
+      "port": 3,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 5,
+      "port": 12,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 4,
+      "port": 12,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 5,
+      "port": 11,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 4,
+      "port": 11,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 5,
+      "port": 10,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 4,
+      "port": 10,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 5,
+      "port": 15,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 3,
+      "port": 15,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 5,
+      "port": 14,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 3,
+      "port": 14,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 5,
+      "port": 13,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 3,
+      "port": 13,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 5,
+      "port": 18,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 7,
+      "port": 18,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 5,
+      "port": 17,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 7,
+      "port": 17,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 5,
+      "port": 16,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 7,
+      "port": 16,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 5,
+      "port": 21,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 0,
+      "port": 21,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 5,
+      "port": 20,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 0,
+      "port": 20,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 5,
+      "port": 19,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 0,
+      "port": 19,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 6,
+      "port": 7,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 2,
+      "port": 7,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 6,
+      "port": 6,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 2,
+      "port": 6,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 6,
+      "port": 9,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "fe80:0000:0000:0000:b2fd:0bff:fed6:fcf9"
+    },
+    "destination": {
+      "module_id": 2,
+      "port": 9,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "fe80:0000:0000:0000:b2fd:0bff:fed6:12c1"
+    }
+  },
+  {
+    "source": {
+      "module_id": 6,
+      "port": 2,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 1,
+      "port": 2,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 6,
+      "port": 5,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 1,
+      "port": 5,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 6,
+      "port": 4,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 1,
+      "port": 4,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 6,
+      "port": 1,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 5,
+      "port": 1,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 6,
+      "port": 0,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": null
+    },
+    "destination": {
+      "module_id": 5,
+      "port": 0,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": null
+    }
+  },
+  {
+    "source": {
+      "module_id": 6,
+      "port": 3,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 5,
+      "port": 3,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 6,
+      "port": 12,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 4,
+      "port": 18,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 6,
+      "port": 11,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 4,
+      "port": 17,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 6,
+      "port": 10,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 4,
+      "port": 16,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 6,
+      "port": 15,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 7,
+      "port": 15,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 6,
+      "port": 14,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 7,
+      "port": 14,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 6,
+      "port": 13,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 7,
+      "port": 13,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 6,
+      "port": 18,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 0,
+      "port": 18,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 6,
+      "port": 17,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 0,
+      "port": 17,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 6,
+      "port": 16,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 0,
+      "port": 16,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 6,
+      "port": 21,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 3,
+      "port": 21,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 6,
+      "port": 20,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 3,
+      "port": 20,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 6,
+      "port": 19,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 3,
+      "port": 19,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 7,
+      "port": 7,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 3,
+      "port": 7,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 7,
+      "port": 6,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 3,
+      "port": 6,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 7,
+      "port": 9,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "fe80:0000:0000:0000:b2fd:0bff:fed6:1ce1"
+    },
+    "destination": {
+      "module_id": 3,
+      "port": 9,
+      "bus_id": "0000:34:00.0",
+      "ib_name": "hbl_1",
+      "gid": "fe80:0000:0000:0000:b2fd:0bff:fed6:0f91"
+    }
+  },
+  {
+    "source": {
+      "module_id": 7,
+      "port": 2,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 0,
+      "port": 2,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 7,
+      "port": 5,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 0,
+      "port": 5,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 7,
+      "port": 4,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 0,
+      "port": 4,
+      "bus_id": "0000:4d:00.0",
+      "ib_name": "hbl_2",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 7,
+      "port": 1,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 4,
+      "port": 1,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 7,
+      "port": 0,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": null
+    },
+    "destination": {
+      "module_id": 4,
+      "port": 0,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": null
+    }
+  },
+  {
+    "source": {
+      "module_id": 7,
+      "port": 3,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 4,
+      "port": 3,
+      "bus_id": "0000:b3:00.0",
+      "ib_name": "hbl_5",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 7,
+      "port": 12,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 1,
+      "port": 12,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 7,
+      "port": 11,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 1,
+      "port": 11,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 7,
+      "port": 10,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 1,
+      "port": 10,
+      "bus_id": "0000:4e:00.0",
+      "ib_name": "hbl_3",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 7,
+      "port": 15,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 6,
+      "port": 15,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 7,
+      "port": 14,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 6,
+      "port": 14,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 7,
+      "port": 13,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 6,
+      "port": 13,
+      "bus_id": "0000:9a:00.0",
+      "ib_name": "hbl_4",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 7,
+      "port": 18,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 5,
+      "port": 18,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 7,
+      "port": 17,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 5,
+      "port": 17,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 7,
+      "port": 16,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 5,
+      "port": 16,
+      "bus_id": "0000:b4:00.0",
+      "ib_name": "hbl_6",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 7,
+      "port": 21,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 2,
+      "port": 21,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 7,
+      "port": 20,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 2,
+      "port": 20,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  },
+  {
+    "source": {
+      "module_id": 7,
+      "port": 19,
+      "bus_id": "0000:9b:00.0",
+      "ib_name": "hbl_7",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    },
+    "destination": {
+      "module_id": 2,
+      "port": 19,
+      "bus_id": "0000:33:00.0",
+      "ib_name": "hbl_0",
+      "gid": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    }
+  }
+]
