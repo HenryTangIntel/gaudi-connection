@@ -152,15 +152,50 @@ The tool looks for official connectivity files at:
 
 If these files are not accessible, the tool falls back to local versions included in this repository.
 
+## Installation
+
+### Using UV (Recommended)
+
+This project now supports installation using [UV](https://github.com/astral-sh/uv), a modern Python package manager.
+
+```bash
+# Initialize the UV project (creates virtual environment and installs dependencies)
+./setup_uv.sh
+
+# Activate the virtual environment
+source .venv/bin/activate
+```
+
+### Using Pip/Setuptools (Legacy)
+
+The project can also be installed using traditional pip:
+
+```bash
+# Create virtual environment
+python -m venv .venv
+source .venv/bin/activate
+
+# Install dependencies
+pip install -e .
+
+# Install development dependencies
+pip install -e ".[dev]"
+```
+
 ## Testing
 
 To run the tests:
 
 ```bash
-# Install test dependencies
-pip install -e ".[dev]"
+# Activate your virtual environment first
+source .venv/bin/activate
 
-# Run all tests
+# With UV
+uv pip install -e ".[dev]"  # If not already installed
+pytest
+
+# With pip (legacy)
+pip install -e ".[dev]"  # If not already installed
 pytest
 
 # Run specific test modules

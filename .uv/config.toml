@@ -1,0 +1,16 @@
+# UV configuration file
+
+[venv]
+# Path for virtual environment
+path = ".venv"
+
+[install]
+# Install options
+upgrade-strategy = "eager"  # Always upgrade dependencies when installing
+
+[resolver]
+# Resolution strategy
+static = true  # Use static resolution for reproducible environments
+
+[logging]
+level = "info"  # Log level for UV operations
